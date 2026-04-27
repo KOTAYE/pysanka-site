@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Колекції — Регіональні школи писанкарства | Галина Сиротюк-П'ятничук</title>
+<meta name="description" content="Колекції писанок за регіональними школами: гуцульська, покутська, бойківська, лемківська. Травлені писанки, страусові, великодні. Авторські роботи.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div data-header="collections"></div>
+
+<!-- HERO PAGE -->
+<section class="hero-page">
+  <div class="container">
+    <div class="breadcrumb" style="justify-content:center;margin-bottom:18px;">
+      <a href="index.html">Головна</a>
+      <span class="sep">→</span>
+      <span>Колекції</span>
+    </div>
+    <div class="pre">Регіональні школи</div>
+    <h1>Колекції <i>писанок</i></h1>
+    <p>В Україні існує понад десяток регіональних шкіл писанкарства, кожна зі своїм характером і символікою. Майстриня працює в чотирьох карпатських традиціях — гуцульській, покутській, бойківській та лемківській.</p>
+  </div>
+</section>
+
+<!-- COLLECTIONS GRID -->
+<section class="block">
+  <div class="container">
+    <div class="collection-grid" id="collections-grid"></div>
+  </div>
+</section>
+
+<!-- TRADITION CONTEXT -->
+<section class="block" style="background:var(--bg-soft);">
+  <div class="container-narrow">
+    <div class="section-head">
+      <div class="pre">З виставки «Писанкові коники»</div>
+      <h2>Понад 400 робіт у <i>Львові</i></h2>
+      <p>У 2025 році в Національному музеї імені Андрея Шептицького відкрилася персональна виставка майстрині — найбільша в її кар'єрі. На експозиції були представлені роботи за мотивами народних покутських, гуцульських, бойківських та лемківських писанок.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:50px;">
+      <div style="text-align:center;padding:32px;border:1px solid var(--line);">
+        <div style="font-family:Arsenal;font-size:48px;font-weight:700;color:var(--accent);line-height:1;margin-bottom:14px;">400+</div>
+        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);">писанок на виставці</div>
+      </div>
+      <div style="text-align:center;padding:32px;border:1px solid var(--line);">
+        <div style="font-family:Arsenal;font-size:48px;font-weight:700;color:var(--accent);line-height:1;margin-bottom:14px;">3</div>
+        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);">типи яєць (куряче, гусяче, страусове)</div>
+      </div>
+      <div style="text-align:center;padding:32px;border:1px solid var(--line);">
+        <div style="font-family:Arsenal;font-size:48px;font-weight:700;color:var(--accent);line-height:1;margin-bottom:14px;">6</div>
+        <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-muted);">країн у приватних колекціях</div>
+      </div>
+    </div>
+
+    <div style="margin-top:50px;padding:32px;background:var(--bg);border-left:3px solid var(--accent);">
+      <p style="font-style:italic;font-size:18px;line-height:1.6;color:var(--text);">«Я в основному дотримуюся автентичних писанок — тих, які писали в давнину. Бо нема нічого нового, коли ми не дотримуємося минулого. А минулого так багато і воно таке цікаве. Моя місія — донести людям через писанку радість, добро, любов. Бо доки буде писанка, доти буде добро на землі і мир».</p>
+      <cite style="display:block;margin-top:18px;font-style:normal;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);">— Галина Сиротюк-П'ятничук, відкриття виставки «Писанкові коники», квітень 2025</cite>
+    </div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="script.js"></script>
+<script src="layout.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCollections('collections-grid');
+  });
+</script>
+</body>
+</html>

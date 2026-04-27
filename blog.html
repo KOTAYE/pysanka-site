@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Блог — Традиції писанкарства, символи, інтерв'ю | Галина Сиротюк-П'ятничук</title>
+<meta name="description" content="Статті про писанкарство: символи, регіональні школи, традиційна воскова техніка, натуральні барвники, інтерв'ю з майстринею, репортажі з виставок.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div data-header="blog"></div>
+
+<!-- HERO PAGE -->
+<section class="hero-page">
+  <div class="container">
+    <div class="breadcrumb" style="justify-content:center;margin-bottom:18px;">
+      <a href="index.html">Головна</a>
+      <span class="sep">→</span>
+      <span>Блог</span>
+    </div>
+    <div class="pre">Журнал майстерні</div>
+    <h1>Писанкові <i>історії</i></h1>
+    <p>Інтерв'ю з майстринею, розбір символів і традицій, репортажі з виставок, оповіді про регіональні школи писанкарства. Усе, що варто знати, перш ніж тримати в руках свою першу писанку.</p>
+  </div>
+</section>
+
+<!-- CATEGORY FILTERS -->
+<section class="filters">
+  <div class="container">
+    <div class="filters-inner">
+      <div class="filter-group">
+        <button class="filter-chip active">Усі статті</button>
+        <button class="filter-chip">Інтерв'ю</button>
+        <button class="filter-chip">Виставки</button>
+        <button class="filter-chip">Традиція</button>
+        <button class="filter-chip">Техніка</button>
+        <button class="filter-chip">Колекції</button>
+        <button class="filter-chip">Навчання</button>
+      </div>
+      <div class="filter-sort">
+        <span style="color:var(--text-muted);">Сортувати:</span>
+        <select>
+          <option>спершу нові</option>
+          <option>спершу популярні</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG GRID -->
+<section style="padding:0 0 90px;">
+  <div class="container">
+    <div class="blog-grid featured-row" id="blog-grid"></div>
+  </div>
+</section>
+
+<!-- REAL SOURCES SECTION -->
+<section class="block" style="background:var(--bg-soft);">
+  <div class="container-narrow">
+    <div class="section-head">
+      <div class="pre">У медіа</div>
+      <h2>Майстриня в <i>публікаціях</i></h2>
+      <p>Реальні матеріали про творчість Галини Сиротюк-П'ятничук в українських медіа — інтерв'ю, репортажі з виставок, культурні огляди.</p>
+    </div>
+
+    <div style="display:grid;gap:18px;max-width:780px;margin:0 auto;">
+      <a href="https://localhistory.org.ua/texts/interviu/pisanka-vid-dushi-ta-dlia-dushi/" target="_blank" rel="noopener" style="display:block;background:var(--bg);border:1px solid var(--line);padding:24px 28px;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--line)'">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px;">Локальна історія • Інтерв'ю • 2021</div>
+            <div style="font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;">«Писанка від душі та для душі»</div>
+            <div style="font-size:14px;color:var(--text-muted);">Розгорнуте інтерв'ю авторства Роксолани Попелюк. Про дитинство в Коломиї, традиційну воскову техніку, символіку, реставрацію писанок у музеях.</div>
+          </div>
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="flex-shrink:0;color:var(--accent);"><path d="M7 17 L17 7 M9 7 h8 v8"/></svg>
+        </div>
+      </a>
+
+      <a href="https://zahid.espreso.tv/kultura-pisankovi-koniki-galini-sirotyuk-u-lvovi-prezentuvali-ponad-400-unikalnikh-pisanok" target="_blank" rel="noopener" style="display:block;background:var(--bg);border:1px solid var(--line);padding:24px 28px;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--line)'">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px;">Espreso Захід • Виставка • Квітень 2025</div>
+            <div style="font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;">«Писанкові коники»: понад 400 унікальних писанок</div>
+            <div style="font-size:14px;color:var(--text-muted);">Репортаж Андріани Стахів з відкриття персональної виставки в Національному музеї ім. А. Шептицького. Інтерв'ю на місці події. Відео.</div>
+          </div>
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="flex-shrink:0;color:var(--accent);"><path d="M7 17 L17 7 M9 7 h8 v8"/></svg>
+        </div>
+      </a>
+
+      <a href="https://wz.lviv.ua/life/530959-pysanka-tse-liubov-i-dobro-tse-enerhiia-iaka-daie-nam-sylu-u-zhytti" target="_blank" rel="noopener" style="display:block;background:var(--bg);border:1px solid var(--line);padding:24px 28px;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--line)'">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px;">Високий Замок • Репортаж • Квітень 2025</div>
+            <div style="font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;">«Писанка — це любов і добро, це — енергія»</div>
+            <div style="font-size:14px;color:var(--text-muted);">Велике інтерв'ю з відкриття виставки «Писанкові коники». Про колекції в США, Канаді, Німеччині, Індії. Про сім'ю майстрині — синів Віктора і Володимира.</div>
+          </div>
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="flex-shrink:0;color:var(--accent);"><path d="M7 17 L17 7 M9 7 h8 v8"/></svg>
+        </div>
+      </a>
+
+      <a href="https://photo-lviv.in.ua/vystavku-avtorskoi-pysanky-halyny-syrotiuk-pysankovi-konyky-pokazhut-v-natsionalnomu-muzei-u-lvovi/" target="_blank" rel="noopener" style="display:block;background:var(--bg);border:1px solid var(--line);padding:24px 28px;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--line)'">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:20px;">
+          <div style="flex:1;">
+            <div style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px;">Фотографії старого Львова • Анонс • 2025</div>
+            <div style="font-size:19px;font-weight:700;line-height:1.3;margin-bottom:6px;">Авторська писанка в Національному музеї</div>
+            <div style="font-size:14px;color:var(--text-muted);">Анонс і кураторський опис виставки. Деталі про техніку, регіональні школи, біографію майстрині.</div>
+          </div>
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="flex-shrink:0;color:var(--accent);"><path d="M7 17 L17 7 M9 7 h8 v8"/></svg>
+        </div>
+      </a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px;max-width:780px;margin-left:auto;margin-right:auto;">
+      <a href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:16px;background:var(--bg);border:1px solid var(--line);padding:20px 24px;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--line)'">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="var(--accent)"/></svg>
+        <div>
+          <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);font-weight:700;">Instagram</div>
+          <div style="font-size:16px;font-weight:700;">@g.syrotiuk</div>
+        </div>
+      </a>
+      <a href="https://www.pinterest.com/surotuyk/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:16px;background:var(--bg);border:1px solid var(--line);padding:20px 24px;text-decoration:none;color:var(--text);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--line)'">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M8 19 L12 8 M12 8 Q15 8 15 11 Q15 14 12 14"/></svg>
+        <div>
+          <div style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);font-weight:700;">Pinterest</div>
+          <div style="font-size:16px;font-weight:700;">surotuyk</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="script.js"></script>
+<script src="layout.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    renderBlog('blog-grid');
+  });
+</script>
+</body>
+</html>
