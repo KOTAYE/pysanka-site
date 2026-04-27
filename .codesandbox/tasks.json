@@ -1,0 +1,13 @@
+{
+  "setupTasks": [],
+  "tasks": {
+    "start": {
+      "name": "Start dev server",
+      "command": "npx serve -l 2222 .",
+      "runAtStart": true,
+      "preview": {
+        "port": 2222
+      }
+    }
+  }
+}
