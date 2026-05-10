@@ -3,7 +3,7 @@
    ================================================================= */
 
 /* ---------- РОЗШИРЕНІ ДАНІ ПРОДУКТУ ---------- */
-const PRODUCT_DETAILS = {
+let PRODUCT_DETAILS = {
   // Кожному id з PRODUCTS відповідає об'єкт з додатковою інформацією
   // Основні дані (name, price, school, sv) беруться з PRODUCTS
   1: {
@@ -193,6 +193,7 @@ function renderProductDetailPage() {
   if (!container) return;
 
   if (!product) {
+    if (typeof loadFromSanity === 'function' && !window._sanityLoaded) return;
     container.innerHTML = `
       <section class="hero-page">
         <div class="container">
@@ -209,6 +210,15 @@ function renderProductDetailPage() {
 
   document.title = `${product.name} — ${product.school} школа • Писанка`;
   const detail = PRODUCT_DETAILS[id] || {};
+  if (product.symbolism && !detail.symbolism) {
+    detail.symbolism = product.symbolism;
+    detail.technique = product.technique || detail.technique;
+    detail.duration = product.duration || detail.duration;
+    detail.colorPalette = product.colorPalette || detail.colorPalette;
+    detail.longDesc = product.longDesc || detail.longDesc;
+    detail.inStock = true;
+    detail.stockText = 'У наявності';
+  }
 
   // Знаходимо схожі (тієї ж школи, крім поточного)
   const related = PRODUCTS.filter(p => p.school === product.school && p.id !== id).slice(0, 4);
@@ -394,7 +404,7 @@ function switchTab(btn, paneId) {
    Кожна стаття має id, що відповідає полю в BLOG масиві.
    ============================================================ */
 
-const BLOG_POSTS = {
+let BLOG_POSTS = {
   'pysanka-vid-dushi': {
     intro: 'Розгорнуте інтерв\'ю майстрині для журналу «Локальна історія» (2021). Про дитинство в Коломиї поруч із Музеєм писанки, чому вона не використовує електричний писачок, що означає молитва перед роботою і чому кожна писанка — неповторна.',
     body: [
@@ -552,11 +562,12 @@ function renderBlogDetailPage() {
   const params = new URLSearchParams(window.location.search);
   const postId = params.get('id');
   const post = BLOG.find(p => p.id === postId);
-  const fullPost = BLOG_POSTS[postId];
+  const fullPost = BLOG_POSTS[postId] || (post && post.body ? post : null);
   const container = document.getElementById('blog-page');
   if (!container) return;
 
   if (!post || !fullPost) {
+    if (typeof loadFromSanity === 'function' && !window._sanityLoaded) return;
     container.innerHTML = `
       <section class="hero-page">
         <div class="container">

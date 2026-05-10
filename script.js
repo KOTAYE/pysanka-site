@@ -21,7 +21,7 @@ function toggleTheme() {
    All products by master Halyna Syrotiuk-Pyatnychuk
    Ціни — орієнтовні, як на виставці у Львові від ~250 грн
 */
-const PRODUCTS = [
+let PRODUCTS = [
   // Hutsul school — найскладніший і найбагатший розпис
   { id: 1, name: '«Сорок клинців»', school: 'Гуцульська', price: 480, eggType: 'curyche', tag: 'Хіт', desc: 'Класичний гуцульський мотив-сорок клинців символізує сорок мучеників і весняні дні.', sv: 'klyntsi', image: 'images/hutsul-deer-pair.webp' },
   { id: 2, name: '«Восьмикутна зірка»', school: 'Гуцульська', price: 520, eggType: 'curyche', desc: 'Восьмикутна зірка — давній сонячний символ, оберіг роду.', sv: 'star' },
@@ -54,7 +54,7 @@ const PRODUCTS = [
 ];
 
 /* ---------- DATA: COLLECTIONS ---------- */
-const COLLECTIONS = [
+let COLLECTIONS = [
   { id: 'hutsul', name: 'Гуцульська', sub: 'Карпатський високогірний розпис',
     desc: 'Найскладніша й найбагатша писанкова школа України. Дрібний орнамент, велика кількість дрібних деталей, чіткий контур чорним. Майстриня дотримується традиції Косівщини й Верховини.',
     count: 7, products: [1,2,3,4,13,16] },
@@ -82,7 +82,7 @@ const COLLECTIONS = [
 ];
 
 /* ---------- DATA: BLOG ---------- */
-const BLOG = [
+let BLOG = [
   {
     id: 'pysanka-vid-dushi',
     title: '«Писанка від душі та для душі» — інтерв\'ю з майстринею',
@@ -867,6 +867,140 @@ function applyURLFilter() {
 }
 
 /* ---------- INIT ---------- */
+/* ---------- SANITY CMS INTEGRATION ---------- */
+const SANITY_PROJECT_ID = 'o009icrr';
+const SANITY_DATASET = 'production';
+const SANITY_API = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2024-01-01/data/query/${SANITY_DATASET}`;
+
+const SV_LOOKUP = {
+  '«Сорок клинців»': 'klyntsi', '«Восьмикутна зірка»': 'star', '«Олень»': 'deer',
+  '«Берегиня»': 'beregynya', '«Безконечник»': 'infinity', '«Кривульки»': 'kryvulky',
+  '«Сонцеворот»': 'sun-wheel', '«Вазон»': 'vazon', '«Ружа»': 'rose',
+  '«Хрест із крапками»': 'cross-dots', '«Колосок»': 'wheat', '«Сонце»': 'sun',
+  '«Страусове яйце з оленями»': 'ostrich-deer', '«Травлене "Космос"»': 'etched',
+  '«Великодня хата»': 'easter', '«Риба і коник»': 'fish-horse',
+};
+
+function sanityImageUrl(ref, width) {
+  if (!ref) return '';
+  const parts = ref.replace('image-', '').split('-');
+  const id = parts.slice(0, -2).join('-');
+  const dims = parts[parts.length - 2];
+  const fmt = parts[parts.length - 1];
+  return `https://cdn.sanity.io/images/${SANITY_PROJECT_ID}/${SANITY_DATASET}/${id}-${dims}.${fmt}?w=${width || 800}&auto=format`;
+}
+
+async function sanityFetch(query) {
+  const url = `${SANITY_API}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  return data.result;
+}
+
+async function loadFromSanity() {
+  try {
+    const [products, blogs, collections] = await Promise.all([
+      sanityFetch('*[_type == "product"] | order(_createdAt asc)'),
+      sanityFetch('*[_type == "blogPost"] | order(publishedAt desc)'),
+      sanityFetch('*[_type == "collection"] | order(order asc){ ..., "productRefs": products[]->_id }'),
+    ]);
+
+    if (products && products.length > 0) {
+      PRODUCTS = products.map((p, i) => ({
+        id: i + 1,
+        _sanityId: p._id,
+        name: p.name,
+        school: p.school,
+        price: p.price,
+        oldPrice: p.oldPrice || undefined,
+        eggType: p.eggType,
+        tag: p.tag || undefined,
+        tagDark: ['Авторська', 'Нове', 'XL'].includes(p.tag),
+        desc: p.description,
+        sv: SV_LOOKUP[p.name] || 'klyntsi',
+        image: p.mainImage?.asset?._ref ? sanityImageUrl(p.mainImage.asset._ref, 800) : undefined,
+        symbolism: p.symbolism,
+        technique: p.technique,
+        duration: p.duration,
+        colorPalette: p.colorPalette,
+        longDesc: p.longDescription?.[0]?.children?.[0]?.text || '',
+        slug: p.slug?.current,
+      }));
+    }
+
+    if (blogs && blogs.length > 0) {
+      const catToSv = {"Інтерв'ю": 'beregynya', 'Виставки': 'fish-horse', 'Традиція': 'klyntsi',
+        'Техніка': 'vazon', 'Колекції': 'rose', 'Навчання': 'wheat'};
+      BLOG = blogs.map(b => ({
+        id: b.slug?.current || b._id,
+        title: b.title,
+        cat: b.category,
+        date: b.publishedAt ? new Date(b.publishedAt).toLocaleDateString('uk-UA', {day: 'numeric', month: 'long', year: 'numeric'}) : '',
+        excerpt: b.excerpt,
+        sourceLabel: b.sourceLabel,
+        sourceUrl: b.sourceUrl,
+        sv: catToSv[b.category] || 'klyntsi',
+        feature: b.slug?.current === 'pysankovi-konyky',
+        _sanityId: b._id,
+        intro: b.intro,
+        body: (b.body || []).map(block => {
+          if (block._type === 'block') {
+            const text = (block.children || []).map(c => c.text).join('');
+            if (block.style === 'h2') return {type: 'h2', text};
+            if (block.style === 'h3') return {type: 'h3', text};
+            if (block.style === 'blockquote') return {type: 'quote', text};
+            return {type: 'p', text};
+          }
+          return null;
+        }).filter(Boolean),
+      }));
+    }
+
+    if (collections && collections.length > 0) {
+      const productIdMap = {};
+      PRODUCTS.forEach(p => { productIdMap[p._sanityId] = p.id; });
+
+      COLLECTIONS = collections.map(c => ({
+        id: c.slug?.current || c._id,
+        name: c.title,
+        sub: '',
+        desc: c.description,
+        count: (c.productRefs || []).length || null,
+        products: (c.productRefs || []).map(ref => productIdMap[ref]).filter(Boolean),
+        custom: c.slug?.current === 'order',
+        isFeatured: c.isFeatured,
+      }));
+    }
+
+    window._sanityLoaded = true;
+    reRenderCurrentPage();
+    console.log('Sanity: loaded', PRODUCTS.length, 'products,', BLOG.length, 'posts,', COLLECTIONS.length, 'collections');
+  } catch (err) {
+    console.warn('Sanity fetch failed, using hardcoded data:', err.message);
+  }
+}
+
+function reRenderCurrentPage() {
+  const path = window.location.pathname;
+  if (path.includes('shop')) {
+    const grid = document.getElementById('products-grid');
+    if (grid) renderProducts('products-grid');
+    initShopFilters && initShopFilters();
+  } else if (path.includes('blog-post')) {
+    typeof renderBlogDetailPage === 'function' && renderBlogDetailPage();
+  } else if (path.includes('blog')) {
+    renderBlog('blog-grid');
+  } else if (path.includes('collections')) {
+    renderCollections('collections-grid');
+  } else if (path.includes('product')) {
+    typeof renderProductDetailPage === 'function' && renderProductDetailPage();
+  } else {
+    const grid = document.getElementById('products-grid');
+    if (grid) renderProducts('products-grid', null, null, 6);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   updateCartCount();
+  loadFromSanity();
 });
