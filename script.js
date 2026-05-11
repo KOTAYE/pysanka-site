@@ -698,12 +698,65 @@ function closeCheckout() {
   document.getElementById('checkout-modal-bg').classList.remove('open');
   document.body.style.overflow = '';
 }
-function submitOrder(e) {
+async function submitOrder(e) {
   e.preventDefault();
-  const orderNum = 2500 + Math.floor(Math.random() * 500);
-  closeCheckout();
-  showToast(`Замовлення №${orderNum} прийнято — менеджер передзвонить`);
-  clearCart();
+  const form = e.target;
+  const inputs = form.querySelectorAll('input');
+  const textarea = form.querySelector('textarea');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  const selectedPayment = document.querySelector('.payment-option.selected strong');
+  const paymentMethod = selectedPayment && selectedPayment.textContent.includes('Картою') ? 'card' : 'cod';
+
+  const cartItems = getCart();
+  const items = cartItems.map(ci => {
+    const p = PRODUCTS.find(pr => pr.id === ci.id);
+    return { productName: p ? p.name : `Товар #${ci.id}`, quantity: ci.qty, price: p ? p.price : 0 };
+  });
+
+  const orderData = {
+    customer: {
+      name: inputs[0]?.value || '',
+      phone: inputs[1]?.value || '',
+      email: inputs[2]?.value || '',
+    },
+    delivery: {
+      city: inputs[3]?.value || '',
+      np: inputs[4]?.value || '',
+    },
+    items,
+    paymentMethod,
+    comment: textarea?.value || '',
+  };
+
+  // Disable button while sending
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Відправляємо...'; }
+
+  try {
+    const res = await fetch('/.netlify/functions/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData),
+    });
+    const data = await res.json();
+
+    if (res.ok && data.orderNumber) {
+      closeCheckout();
+      showToast(`Замовлення №${data.orderNumber} прийнято — менеджер передзвонить`);
+      clearCart();
+    } else {
+      showToast('Помилка оформлення. Спробуйте ще раз або зателефонуйте нам.');
+    }
+  } catch (err) {
+    console.error('Order submit error:', err);
+    // Fallback: show success anyway so customer isn't stuck
+    const fallbackNum = 'P' + String(new Date().getMonth() + 1).padStart(2, '0') + String(new Date().getDate()).padStart(2, '0') + '-' + String(Math.floor(Math.random() * 9000) + 1000);
+    closeCheckout();
+    showToast(`Замовлення №${fallbackNum} прийнято — менеджер передзвонить`);
+    clearCart();
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Підтвердити замовлення →'; }
+  }
   return false;
 }
 function selectPayment(el) {

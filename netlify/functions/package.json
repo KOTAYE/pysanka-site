@@ -1,0 +1,7 @@
+{
+  "type": "module",
+  "dependencies": {
+    "@sanity/client": "^7.22.0",
+    "resend": "^4.0.0"
+  }
+}
