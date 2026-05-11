@@ -43,6 +43,9 @@ const HEADER_HTML = (active) => `
           <a href="collections.html#easter">Великодні</a>
         </div>
       </div>
+      <div class="nav-item ${active === 'events' ? 'active' : ''}">
+        <a href="events.html">Події</a>
+      </div>
       <div class="nav-item ${active === 'blog' ? 'active' : ''}">
         <a href="blog.html">Блог</a>
       </div>
@@ -110,6 +113,7 @@ const FOOTER_HTML = `
         <a href="#">Умови використання сайту</a>
         <a href="#">Доставка та оплата</a>
         <a href="#">Як зберігати писанку</a>
+        <a href="events.html">Події</a>
         <a href="blog.html">Блог</a>
         <a href="#contacts">Контакти</a>
       </div>

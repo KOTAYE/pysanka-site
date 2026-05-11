@@ -941,6 +941,276 @@ function applyURLFilter() {
   }
 }
 
+/* ---------- EVENTS ---------- */
+let EVENTS = [
+  {
+    name: 'Ярмарок писанок на День молоді',
+    eventType: 'fair',
+    dateStart: '2026-06-28T10:00:00+03:00',
+    dateEnd: '2026-06-28T19:00:00+03:00',
+    city: 'Львів',
+    location: 'Площа Ринок',
+    description: 'Майстриня Галина Сиротюк-Пʼятничук представить колекцію авторських писанок на святковому ярмарку до Дня молоді. Можливість придбати роботи та замовити індивідуальний розпис.',
+    price: 'Вхід вільний',
+    featured: true,
+    coverImage: 'images/etched-set.webp',
+    externalLink: null,
+    externalLinkLabel: null,
+    dateEnd: null,
+    slug: 'yarmarka-den-molodi-2026'
+  },
+  {
+    name: 'Виставка «Писанка і Незалежність»',
+    eventType: 'exhibition',
+    dateStart: '2026-08-24T11:00:00+03:00',
+    dateEnd: '2026-09-14T18:00:00+03:00',
+    city: 'Івано-Франківськ',
+    location: 'Обласний краєзнавчий музей',
+    description: 'Персональна виставка до Дня Незалежності України. Понад 200 робіт — від традиційних гуцульських та покутських мотивів до авторських травлених писанок на страусових яйцях.',
+    price: null,
+    featured: false,
+    coverImage: 'images/master-portrait.webp',
+    externalLink: null,
+    externalLinkLabel: null,
+    slug: 'vystavka-nezalezhnist-2026'
+  },
+  {
+    name: 'Майстер-клас «Купальська писанка»',
+    eventType: 'workshop',
+    dateStart: '2026-07-07T14:00:00+03:00',
+    dateEnd: null,
+    city: 'Тернопіль',
+    location: 'Культурний простір «Вільна Хата»',
+    description: 'Відкритий майстер-клас з воскового розпису писанок напередодні свята Івана Купала. Учасники розпишуть писанку з купальськими мотивами — папороть, вогонь, сонце. Усі матеріали включені.',
+    price: '400 ₴',
+    featured: false,
+    coverImage: 'images/sun-wheel-orange.webp',
+    externalLink: null,
+    externalLinkLabel: null,
+    slug: 'majster-klas-kupala-2026'
+  },
+];
+const EVENT_TYPE_LABELS = {
+  workshop: 'Майстер-клас',
+  exhibition: 'Виставка',
+  fair: 'Ярмарок',
+  other: 'Подія',
+};
+const MONTH_SHORT = ['Січ', 'Лют', 'Бер', 'Кві', 'Тра', 'Чер', 'Лип', 'Сер', 'Вер', 'Жов', 'Лис', 'Гру'];
+const MONTH_FULL = ['січня', 'лютого', 'березня', 'квітня', 'травня', 'червня', 'липня', 'серпня', 'вересня', 'жовтня', 'листопада', 'грудня'];
+
+let currentEventFilter = 'all';
+
+function filterEvents(type, btn) {
+  currentEventFilter = type;
+  if (btn) {
+    btn.parentElement.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  renderEventsPage();
+}
+
+function formatEventDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return `${d.getDate()} ${MONTH_FULL[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function formatEventDateRange(start, end) {
+  if (!start) return '';
+  const s = new Date(start);
+  if (!end) {
+    const hours = s.getHours();
+    const mins = String(s.getMinutes()).padStart(2, '0');
+    const time = hours > 0 || s.getMinutes() > 0 ? `, ${hours}:${mins}` : '';
+    return `${s.getDate()} ${MONTH_FULL[s.getMonth()]} ${s.getFullYear()}${time}`;
+  }
+  const e = new Date(end);
+  if (s.getMonth() === e.getMonth() && s.getFullYear() === e.getFullYear()) {
+    return `${s.getDate()}–${e.getDate()} ${MONTH_FULL[s.getMonth()]} ${s.getFullYear()}`;
+  }
+  return `${s.getDate()} ${MONTH_SHORT[s.getMonth()]} — ${e.getDate()} ${MONTH_SHORT[e.getMonth()]} ${e.getFullYear()}`;
+}
+
+function eventCalendarSvg() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`;
+}
+function eventPinSvg() {
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>`;
+}
+
+function renderEventCard(ev, isPast) {
+  const d = new Date(ev.dateStart);
+  const typeLabel = EVENT_TYPE_LABELS[ev.eventType] || 'Подія';
+  const badgeClass = ev.eventType || 'other';
+  const locationParts = [];
+  if (ev.city) locationParts.push(ev.city);
+  if (ev.location) locationParts.push(ev.location);
+  const locationStr = locationParts.join(', ');
+  const dateStr = formatEventDateRange(ev.dateStart, ev.dateEnd);
+  const imageHtml = ev.coverImage
+    ? `<img src="${ev.coverImage}" alt="${ev.name}" loading="lazy">`
+    : `<span class="placeholder-icon">${eventCalendarSvg()}</span>`;
+
+  return `
+    <div class="event-card">
+      <div class="ec-image">
+        <span class="ec-badge ${badgeClass}">${typeLabel}</span>
+        <div class="ec-date-badge"><span class="day">${d.getDate()}</span><span class="month">${MONTH_SHORT[d.getMonth()]}</span></div>
+        ${imageHtml}
+      </div>
+      <div class="ec-body">
+        ${isPast ? '<span class="past-label">Завершено</span>' : ''}
+        <h3>${ev.name}</h3>
+        <div class="ec-meta">
+          ${locationStr ? `<span>${eventPinSvg()} ${locationStr}</span>` : ''}
+          <span>${eventCalendarSvg()} ${dateStr}</span>
+        </div>
+        ${ev.description ? `<div class="ec-desc">${ev.description}</div>` : ''}
+        <div class="ec-footer">
+          <span class="ec-price">${ev.price || (isPast ? '' : 'Вхід вільний')}</span>
+          ${ev.externalLink
+            ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="ec-link">${ev.externalLinkLabel || 'Детальніше'} →</a>`
+            : (ev.eventType === 'workshop' && !isPast
+              ? `<a href="tel:+380970000001" class="ec-link">Записатися →</a>`
+              : `<span class="ec-link" style="visibility:hidden;">—</span>`)}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderFeaturedEvent(ev) {
+  if (!ev) return '';
+  const typeLabel = EVENT_TYPE_LABELS[ev.eventType] || 'Подія';
+  const locationParts = [];
+  if (ev.city) locationParts.push(ev.city);
+  if (ev.location) locationParts.push(ev.location);
+  const locationStr = locationParts.join(', ');
+  const dateStr = formatEventDateRange(ev.dateStart, ev.dateEnd);
+  const imageHtml = ev.coverImage
+    ? `<img src="${ev.coverImage}" alt="${ev.name}" loading="lazy">`
+    : `<span style="color:var(--text-dim);font-size:14px;">${eventCalendarSvg()}</span>`;
+
+  return `
+    <div class="featured-event">
+      <div class="fe-image">
+        <div class="badge-live">Скоро</div>
+        ${imageHtml}
+      </div>
+      <div class="fe-info">
+        <div class="fe-type">${typeLabel}</div>
+        <h2>${ev.name}</h2>
+        <div class="fe-meta">
+          <span>${eventCalendarSvg()} ${dateStr}</span>
+          ${locationStr ? `<span>${eventPinSvg()} ${locationStr}</span>` : ''}
+        </div>
+        ${ev.description ? `<div class="fe-desc">${ev.description}</div>` : ''}
+        <div class="fe-actions">
+          ${ev.eventType === 'workshop'
+            ? `<a href="tel:+380970000001" class="btn">Записатися →</a>`
+            : ''}
+          ${ev.externalLink ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="btn ${ev.eventType === 'workshop' ? 'btn-ghost' : ''}">${ev.externalLinkLabel || 'Детальніше'} →</a>` : ''}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderEventsPage() {
+  const featuredEl = document.getElementById('featured-event');
+  const upcomingEl = document.getElementById('upcoming-events');
+  const pastEl = document.getElementById('past-events');
+  const upcomingLabel = document.getElementById('upcoming-label');
+  const pastLabel = document.getElementById('past-label');
+  if (!upcomingEl) return;
+
+  const now = new Date();
+  let events = EVENTS;
+
+  // Apply filter
+  if (currentEventFilter !== 'all') {
+    events = events.filter(e => e.eventType === currentEventFilter);
+  }
+
+  // Split into upcoming and past
+  const upcoming = events.filter(e => {
+    const end = e.dateEnd ? new Date(e.dateEnd) : new Date(e.dateStart);
+    return end >= now;
+  }).sort((a, b) => new Date(a.dateStart) - new Date(b.dateStart));
+
+  const past = events.filter(e => {
+    const end = e.dateEnd ? new Date(e.dateEnd) : new Date(e.dateStart);
+    return end < now;
+  }).sort((a, b) => new Date(b.dateStart) - new Date(a.dateStart));
+
+  // Featured: first upcoming featured event, or first upcoming
+  const featured = upcoming.find(e => e.featured) || upcoming[0];
+  const upcomingRest = upcoming.filter(e => e !== featured);
+
+  if (featuredEl) {
+    featuredEl.innerHTML = featured ? renderFeaturedEvent(featured) : '';
+  }
+
+  if (upcomingLabel) upcomingLabel.style.display = upcomingRest.length > 0 ? '' : 'none';
+  upcomingEl.innerHTML = upcomingRest.length > 0
+    ? upcomingRest.map(e => renderEventCard(e, false)).join('')
+    : (upcoming.length === 0 && past.length === 0
+      ? `<div class="events-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          <p>Поки немає запланованих подій.</p>
+          <p style="font-size:13px;margin-top:8px;">Підпишіться на розсилку або стежте за нами в Instagram, щоб дізнатися першими.</p>
+        </div>`
+      : '');
+
+  if (pastEl) {
+    if (pastLabel) pastLabel.style.display = past.length > 0 ? '' : 'none';
+    pastEl.innerHTML = past.map(e => renderEventCard(e, true)).join('');
+  }
+}
+
+/* Homepage: nearest event block */
+function renderHomeEventBlock(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const now = new Date();
+  const upcoming = EVENTS
+    .filter(e => {
+      const end = e.dateEnd ? new Date(e.dateEnd) : new Date(e.dateStart);
+      return end >= now;
+    })
+    .sort((a, b) => new Date(a.dateStart) - new Date(b.dateStart));
+
+  const ev = upcoming.find(e => e.featured) || upcoming[0];
+  if (!ev) { container.style.display = 'none'; return; }
+
+  const d = new Date(ev.dateStart);
+  const typeLabel = EVENT_TYPE_LABELS[ev.eventType] || 'Подія';
+  const locationParts = [];
+  if (ev.city) locationParts.push(ev.city);
+  if (ev.location) locationParts.push(ev.location);
+  const timeStr = (d.getHours() > 0 || d.getMinutes() > 0) ? ` · ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}` : '';
+  const meta = locationParts.join(', ') + timeStr + (ev.price ? ` · ${ev.price}` : '');
+
+  container.innerHTML = `
+    <div class="section-head" style="text-align:center;">
+      <h2>Найближча <i>подія</i></h2>
+    </div>
+    <div class="home-event-block">
+      <div class="heb-date">
+        <span class="day">${d.getDate()}</span>
+        <span class="month">${MONTH_FULL[d.getMonth()]}</span>
+      </div>
+      <div class="heb-info">
+        <span class="type">${typeLabel}</span>
+        <h3>${ev.name}</h3>
+        <p>${meta}</p>
+      </div>
+      <div class="heb-action">
+        <a href="events.html" class="btn btn-ghost">Детальніше →</a>
+      </div>
+    </div>`;
+}
+
 /* ---------- INIT ---------- */
 /* ---------- SANITY CMS INTEGRATION ---------- */
 const SANITY_PROJECT_ID = 'o009icrr';
@@ -974,10 +1244,11 @@ async function sanityFetch(query) {
 
 async function loadFromSanity() {
   try {
-    const [products, blogs, collections] = await Promise.all([
+    const [products, blogs, collections, events] = await Promise.all([
       sanityFetch('*[_type == "product"] | order(_createdAt asc)'),
       sanityFetch('*[_type == "blogPost"] | order(publishedAt desc)'),
       sanityFetch('*[_type == "collection"] | order(order asc){ ..., "productRefs": products[]->_id }'),
+      sanityFetch('*[_type == "event"] | order(dateStart desc)'),
     ]);
 
     if (products && products.length > 0) {
@@ -1048,9 +1319,28 @@ async function loadFromSanity() {
       }));
     }
 
+    if (events && events.length > 0) {
+      EVENTS = events.map(e => ({
+        _sanityId: e._id,
+        name: e.name,
+        slug: e.slug?.current,
+        eventType: e.eventType,
+        dateStart: e.dateStart,
+        dateEnd: e.dateEnd || null,
+        city: e.city,
+        location: e.location,
+        description: e.description,
+        coverImage: e.coverImage?.asset?._ref ? sanityImageUrl(e.coverImage.asset._ref, 800) : null,
+        price: e.price,
+        externalLink: e.externalLink,
+        externalLinkLabel: e.externalLinkLabel,
+        featured: e.featured || false,
+      }));
+    }
+
     window._sanityLoaded = true;
     reRenderCurrentPage();
-    console.log('Sanity: loaded', PRODUCTS.length, 'products,', BLOG.length, 'posts,', COLLECTIONS.length, 'collections');
+    console.log('Sanity: loaded', PRODUCTS.length, 'products,', BLOG.length, 'posts,', COLLECTIONS.length, 'collections,', EVENTS.length, 'events');
   } catch (err) {
     console.warn('Sanity fetch failed, using hardcoded data:', err.message);
   }
@@ -1066,6 +1356,8 @@ function reRenderCurrentPage() {
     typeof renderBlogDetailPage === 'function' && renderBlogDetailPage();
   } else if (path.includes('blog')) {
     renderBlog('blog-grid');
+  } else if (path.includes('events')) {
+    renderEventsPage();
   } else if (path.includes('collections')) {
     renderCollections('collections-grid');
   } else if (path.includes('product')) {
@@ -1073,6 +1365,8 @@ function reRenderCurrentPage() {
   } else {
     const grid = document.getElementById('products-grid');
     if (grid) renderProducts('products-grid', null, null, 6);
+    // Homepage: nearest event block
+    renderHomeEventBlock('home-event-section');
   }
 }
 

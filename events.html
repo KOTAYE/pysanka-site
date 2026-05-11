@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Події — майстер-класи, виставки, ярмарки | Галина Сиротюк-П'ятничук</title>
+<meta name="description" content="Майстер-класи з писанкарства, виставки, ярмарки та інші події від майстрині Галини Сиротюк-П'ятничук. Анонси та розклад.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div data-header="events"></div>
+
+<!-- HERO PAGE -->
+<section class="hero-page">
+  <div class="container">
+    <div class="breadcrumb" style="justify-content:center;margin-bottom:18px;">
+      <a href="index.html">Головна</a>
+      <span class="sep">→</span>
+      <span>Події</span>
+    </div>
+    <div class="pre">Розклад подій</div>
+    <h1>Новини та <i>події</i></h1>
+    <p>Майстер-класи, виставки, ярмарки та інші події від майстрині Галини Сиротюк-П'ятничук</p>
+  </div>
+</section>
+
+<!-- EVENT TYPE FILTERS -->
+<section class="filters">
+  <div class="container">
+    <div class="filters-inner">
+      <div class="filter-group" id="event-filters">
+        <button class="filter-chip active" onclick="filterEvents('all', this)">Усі</button>
+        <button class="filter-chip" onclick="filterEvents('workshop', this)">Майстер-класи</button>
+        <button class="filter-chip" onclick="filterEvents('exhibition', this)">Виставки</button>
+        <button class="filter-chip" onclick="filterEvents('fair', this)">Ярмарки</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED EVENT -->
+<section style="padding:0 0 48px;">
+  <div class="container">
+    <div id="featured-event"></div>
+  </div>
+</section>
+
+<!-- UPCOMING EVENTS -->
+<section style="padding:0 0 60px;">
+  <div class="container">
+    <div class="section-label" id="upcoming-label" style="display:none;">Найближчі події</div>
+    <div class="events-grid" id="upcoming-events"></div>
+  </div>
+</section>
+
+<!-- PAST EVENTS -->
+<section style="padding:0 0 60px;">
+  <div class="container">
+    <div class="section-label" id="past-label" style="display:none;">Минулі події</div>
+    <div class="events-grid past-events" id="past-events"></div>
+  </div>
+</section>
+
+<!-- ORDER A WORKSHOP -->
+<section class="block" style="background:var(--bg-soft);">
+  <div class="container-narrow" style="max-width:700px;margin:0 auto;text-align:center;">
+    <div class="section-head">
+      <div class="pre">Індивідуально</div>
+      <h2>Замовити <i>майстер-клас</i></h2>
+      <p>Майстриня проводить індивідуальні та групові заняття для дітей і дорослих. Базовий курс — три зустрічі. Усі матеріали (писачки, віск, барвники, яйця) надаються. Можна організувати виїзний майстер-клас у вашому місті.</p>
+    </div>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="tel:+380970000001" class="btn">Зателефонувати →</a>
+      <a href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener" class="btn btn-ghost">Написати в Instagram →</a>
+    </div>
+  </div>
+</section>
+
+<div data-footer></div>
+
+<script src="script.js"></script>
+<script src="layout.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    renderEventsPage();
+  });
+</script>
+</body>
+</html>
