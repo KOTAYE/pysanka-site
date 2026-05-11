@@ -709,10 +709,15 @@ async function submitOrder(e) {
   const paymentMethod = selectedPayment && selectedPayment.textContent.includes('Переказ') ? 'transfer' : 'cod';
 
   const cartItems = getCart();
-  const items = cartItems.map(ci => {
-    const p = PRODUCTS.find(pr => pr.id === ci.id);
-    return { productName: p ? p.name : `Товар #${ci.id}`, quantity: ci.qty, price: p ? p.price : 0 };
+  const grouped = {};
+  cartItems.forEach(ci => {
+    if (grouped[ci.id]) { grouped[ci.id].quantity++; }
+    else {
+      const p = PRODUCTS.find(pr => pr.id === ci.id);
+      grouped[ci.id] = { productName: p ? p.name : ci.name || `Товар #${ci.id}`, quantity: 1, price: p ? p.price : ci.price || 0 };
+    }
   });
+  const items = Object.values(grouped);
 
   const orderData = {
     customer: {
