@@ -36,7 +36,7 @@ function buildMasterEmail(order) {
     '<tr style="background:#f7f7f7"><th style="padding:8px;text-align:left">Назва</th><th style="padding:8px">К-ть</th><th style="padding:8px;text-align:right">Ціна</th></tr>' +
     itemsHtml + '</table>' +
     '<p style="font-size:18px;text-align:right;margin-top:12px"><strong>Разом: ' + order.total + ' ₴</strong></p>' +
-    '<p>Оплата: ' + (order.paymentMethod === 'cod' ? 'Накладений платіж' : 'Картою') + '</p>' +
+    '<p>Оплата: ' + (order.paymentMethod === 'cod' ? 'Накладений платіж' : 'Переказ на картку') + '</p>' +
     (order.comment ? '<p>Коментар: ' + order.comment + '</p>' : '') +
     '</div></div>';
 }
@@ -58,7 +58,7 @@ function buildCustomerEmail(order) {
     itemsHtml + '</table>' +
     '<p style="font-size:18px;text-align:right"><strong>Разом: ' + order.total + ' ₴</strong></p>' +
     '<p>Доставка: ' + order.delivery.city + ', Нова Пошта №' + order.delivery.np + '</p>' +
-    '<p>Оплата: ' + (order.paymentMethod === 'cod' ? 'Накладений платіж при отриманні' : 'Картою') + '</p>' +
+    '<p>Оплата: ' + (order.paymentMethod === 'cod' ? 'Накладений платіж при отриманні' : 'Переказ на картку (реквізити надішлемо окремо)') + '</p>' +
     '<div style="margin-top:24px;padding:16px;background:#f7f7f7;border-radius:8px">' +
     "<p style=\"margin:0\">Ми зв'яжемося з вами для підтвердження замовлення протягом доби.</p>" +
     '<p style="margin:8px 0 0">Телефон: +380 97 555 12 34</p></div></div>' +

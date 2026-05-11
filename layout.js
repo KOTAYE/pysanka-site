@@ -111,7 +111,7 @@ const FOOTER_HTML = `
         <div class="footer-logo">Писан<span>•</span>ка</div>
         <p class="footer-tag">Майстерня авторського писанкового розпису. Майстриня — Галина Сиротюк-П'ятничук, членкиня Національної спілки майстрів народного мистецтва України з 2006 року.</p>
         <div class="footer-payments">
-          Приймаємо: <span class="badge">VISA</span> <span class="badge">MASTERCARD</span> <span class="badge">НП</span>
+          Доставка: <span class="badge">Нова Пошта</span> · Оплата: <span class="badge">Накладений платіж</span> <span class="badge">Переказ на картку</span>
         </div>
       </div>
       <div class="footer-col">
@@ -171,7 +171,7 @@ const FOOTER_HTML = `
   <div class="checkout-modal" id="checkout-modal">
     <button class="close" onclick="closeCheckout()">×</button>
     <h3>Оформлення <i>замовлення</i></h3>
-    <p class="sub">Менеджер передзвонить протягом 30 хвилин для підтвердження. Оплата — на вибір.</p>
+    <p class="sub">Менеджер передзвонить протягом доби для підтвердження. Оплата — після підтвердження замовлення.</p>
 
     <form onsubmit="return submitOrder(event)">
       <div class="checkout-form-row">
@@ -214,8 +214,8 @@ const FOOTER_HTML = `
           <span>Оплата при отриманні</span>
         </div>
         <div class="payment-option" onclick="selectPayment(this)">
-          <strong>Картою на сайті</strong>
-          <span>VISA / Mastercard</span>
+          <strong>Переказ на картку</strong>
+          <span>Реквізити після підтвердження</span>
         </div>
       </div>
 

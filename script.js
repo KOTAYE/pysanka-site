@@ -706,7 +706,7 @@ async function submitOrder(e) {
   const submitBtn = form.querySelector('button[type="submit"]');
 
   const selectedPayment = document.querySelector('.payment-option.selected strong');
-  const paymentMethod = selectedPayment && selectedPayment.textContent.includes('Картою') ? 'card' : 'cod';
+  const paymentMethod = selectedPayment && selectedPayment.textContent.includes('Переказ') ? 'transfer' : 'cod';
 
   const cartItems = getCart();
   const items = cartItems.map(ci => {
