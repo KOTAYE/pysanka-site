@@ -942,7 +942,54 @@ function applyURLFilter() {
 }
 
 /* ---------- EVENTS ---------- */
-let EVENTS = [];
+let EVENTS = [
+  {
+    name: 'Ярмарок писанок на День молоді',
+    eventType: 'fair',
+    dateStart: '2026-06-28T10:00:00+03:00',
+    dateEnd: '2026-06-28T19:00:00+03:00',
+    city: 'Львів',
+    location: 'Площа Ринок',
+    description: 'Майстриня Галина Сиротюк-Пʼятничук представить колекцію авторських писанок на святковому ярмарку до Дня молоді. Можливість придбати роботи та замовити індивідуальний розпис.',
+    price: 'Вхід вільний',
+    featured: true,
+    coverImage: null,
+    externalLink: null,
+    externalLinkLabel: null,
+    dateEnd: null,
+    slug: 'yarmarka-den-molodi-2026'
+  },
+  {
+    name: 'Виставка «Писанка і Незалежність»',
+    eventType: 'exhibition',
+    dateStart: '2026-08-24T11:00:00+03:00',
+    dateEnd: '2026-09-14T18:00:00+03:00',
+    city: 'Івано-Франківськ',
+    location: 'Обласний краєзнавчий музей',
+    description: 'Персональна виставка до Дня Незалежності України. Понад 200 робіт — від традиційних гуцульських та покутських мотивів до авторських травлених писанок на страусових яйцях.',
+    price: null,
+    featured: false,
+    coverImage: null,
+    externalLink: null,
+    externalLinkLabel: null,
+    slug: 'vystavka-nezalezhnist-2026'
+  },
+  {
+    name: 'Майстер-клас «Купальська писанка»',
+    eventType: 'workshop',
+    dateStart: '2026-07-07T14:00:00+03:00',
+    dateEnd: null,
+    city: 'Тернопіль',
+    location: 'Культурний простір «Вільна Хата»',
+    description: 'Відкритий майстер-клас з воскового розпису писанок напередодні свята Івана Купала. Учасники розпишуть писанку з купальськими мотивами — папороть, вогонь, сонце. Усі матеріали включені.',
+    price: '400 ₴',
+    featured: false,
+    coverImage: null,
+    externalLink: null,
+    externalLinkLabel: null,
+    slug: 'majster-klas-kupala-2026'
+  },
+];
 const EVENT_TYPE_LABELS = {
   workshop: 'Майстер-клас',
   exhibition: 'Виставка',
