@@ -55,13 +55,11 @@ const HEADER_HTML = (active) => `
       <div class="header-phone">
         <span class="label">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
-          +380 97 555 12 34
+          +380 97 000 00 01
           <span class="chev"></span>
         </span>
         <div class="header-phone-list">
-          <a href="tel:+380975551234">+380 97 555 12 34</a>
-          <a href="tel:+380505551234">+380 50 555 12 34</a>
-          <a href="tel:+380935551234">+380 93 555 12 34</a>
+          <a href="tel:+380970000001">+380 97 000 00 01</a>
           <a class="order-call" onclick="alert('Форма зворотного дзвінка')">Замовити дзвінок</a>
         </div>
       </div>
@@ -126,7 +124,7 @@ const FOOTER_HTML = `
       </div>
       <div class="footer-col">
         <h5>Зв'язок</h5>
-        <a href="tel:+380975551234">+380 97 555 12 34</a>
+        <a href="tel:+380970000001">+380 97 000 00 01</a>
         <a href="mailto:hello@pysanka.ua">hello@pysanka.ua</a>
         <p>Пн-Пт, 9:00 – 18:00</p>
         <p style="margin-top:14px">м. Коломия, Івано-Франківська область</p>
