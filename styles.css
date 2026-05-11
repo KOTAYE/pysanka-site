@@ -2154,9 +2154,10 @@ footer {
   letter-spacing: 0.5px;
   z-index: 1;
 }
-.ec-badge.workshop { background: #1b5e20; color: #a5d6a7; }
-.ec-badge.exhibition { background: #4a148c; color: #ce93d8; }
-.ec-badge.fair { background: #bf360c; color: #ffab91; }
+/* Ethnic palette: inspired by traditional pysanka pigments */
+.ec-badge.workshop { background: #8B1A1A; color: #F2C4A0; }  /* dark madder red + warm linen */
+.ec-badge.exhibition { background: #1A3A5C; color: #A8C8E8; } /* deep indigo blue + sky flax */
+.ec-badge.fair { background: #6B4C1E; color: #F0D68A; }       /* walnut bark + beeswax gold */
 .ec-badge.other { background: var(--line-strong); color: var(--text-muted); }
 .ec-date-badge {
   position: absolute;

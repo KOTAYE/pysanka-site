@@ -1069,7 +1069,11 @@ function renderEventCard(ev, isPast) {
         ${ev.description ? `<div class="ec-desc">${ev.description}</div>` : ''}
         <div class="ec-footer">
           <span class="ec-price">${ev.price || (isPast ? '' : 'Вхід вільний')}</span>
-          ${ev.externalLink ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="ec-link">${ev.externalLinkLabel || 'Детальніше'} →</a>` : ''}
+          ${ev.externalLink
+            ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="ec-link">${ev.externalLinkLabel || 'Детальніше'} →</a>`
+            : (ev.eventType === 'workshop' && !isPast
+              ? `<a href="tel:+380970000001" class="ec-link">Записатися →</a>`
+              : `<span class="ec-link" style="visibility:hidden;">—</span>`)}
         </div>
       </div>
     </div>`;
@@ -1102,7 +1106,10 @@ function renderFeaturedEvent(ev) {
         </div>
         ${ev.description ? `<div class="fe-desc">${ev.description}</div>` : ''}
         <div class="fe-actions">
-          ${ev.externalLink ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="btn">${ev.externalLinkLabel || 'Детальніше'} →</a>` : ''}
+          ${ev.eventType === 'workshop'
+            ? `<a href="tel:+380970000001" class="btn">Записатися →</a>`
+            : ''}
+          ${ev.externalLink ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="btn ${ev.eventType === 'workshop' ? 'btn-ghost' : ''}">${ev.externalLinkLabel || 'Детальніше'} →</a>` : ''}
         </div>
       </div>
     </div>`;
