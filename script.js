@@ -999,6 +999,7 @@ async function loadFromSanity() {
         duration: p.duration,
         colorPalette: p.colorPalette,
         longDesc: p.longDescription?.[0]?.children?.[0]?.text || '',
+        inStock: p.inStock !== false,
         slug: p.slug?.current,
       }));
     }

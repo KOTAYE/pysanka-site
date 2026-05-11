@@ -210,15 +210,15 @@ function renderProductDetailPage() {
 
   document.title = `${product.name} — ${product.school} школа • Писанка`;
   const detail = PRODUCT_DETAILS[id] || {};
-  if (product.symbolism && !detail.symbolism) {
-    detail.symbolism = product.symbolism;
-    detail.technique = product.technique || detail.technique;
-    detail.duration = product.duration || detail.duration;
-    detail.colorPalette = product.colorPalette || detail.colorPalette;
-    detail.longDesc = product.longDesc || detail.longDesc;
-    detail.inStock = true;
-    detail.stockText = 'У наявності';
-  }
+  // Merge Sanity fields into detail (each field independently)
+  const EGG_LABELS = { curyche: 'Куряче, ~5,5 × 4 см', gusyache: 'Гусяче, ~9 × 6 см', strausyne: 'Страусове, ~15 × 12 см', perepelyne: 'Перепелине, ~3 × 2 см' };
+  if (!detail.eggSize && product.eggType) detail.eggSize = EGG_LABELS[product.eggType] || product.eggType;
+  if (!detail.symbolism && product.symbolism) detail.symbolism = product.symbolism;
+  if (!detail.technique && product.technique) detail.technique = product.technique;
+  if (!detail.duration && product.duration) detail.duration = product.duration;
+  if (!detail.colorPalette && product.colorPalette) detail.colorPalette = product.colorPalette;
+  if (!detail.longDesc && product.longDesc) detail.longDesc = product.longDesc;
+  if (!detail.inStock) { detail.inStock = product.inStock !== false; detail.stockText = detail.inStock ? 'У наявності' : 'Під замовлення'; }
 
   // Знаходимо схожі (тієї ж школи, крім поточного)
   const related = PRODUCTS.filter(p => p.school === product.school && p.id !== id).slice(0, 4);
