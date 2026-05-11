@@ -72,14 +72,6 @@ const HEADER_HTML = (active) => `
       <button onclick="alert('Пошук — буде додано')" aria-label="Пошук" style="display:flex;align-items:center;gap:6px;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
       </button>
-      <a href="#" onclick="event.preventDefault(); alert('Кабінет — авторизація буде доступна після підключення оплати')" aria-label="Кабінет">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-        Кабінет
-      </a>
-      <a href="#" onclick="event.preventDefault(); alert('Обрані товари — для збереження потрібна реєстрація')" aria-label="Обране">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-4.5-9.5-9C1 9 3 5 7 5c2.5 0 4 1.5 5 3 1-1.5 2.5-3 5-3 4 0 6 4 4.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg>
-        Обране
-      </a>
       <button onclick="openCart()" aria-label="Кошик">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 7h12l-1.5 11h-9L6 7z"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/></svg>
         Кошик<span class="cart-count" data-cart-count>0</span>
