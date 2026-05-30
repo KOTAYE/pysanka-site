@@ -755,7 +755,10 @@ async function submitOrder(e) {
   if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Відправляємо...'; }
 
   try {
-    const res = await fetch('/.netlify/functions/order', {
+    const ORDER_API = window.location.hostname.includes('github.io')
+      ? 'https://nimble-churros-45fe19.netlify.app/.netlify/functions/order'
+      : '/.netlify/functions/order';
+    const res = await fetch(ORDER_API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderData),

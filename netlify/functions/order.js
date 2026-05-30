@@ -66,8 +66,18 @@ function buildCustomerEmail(order) {
 }
 
 exports.handler = async function(event) {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  };
+
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
+  }
+
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({error: 'Method not allowed'}) };
+    return { statusCode: 405, headers: corsHeaders, body: JSON.stringify({error: 'Method not allowed'}) };
   }
 
   try {
@@ -75,7 +85,7 @@ exports.handler = async function(event) {
     const {customer, delivery, items, paymentMethod, comment} = body;
 
     if (!customer || !customer.name || !customer.phone || !items || !items.length) {
-      return { statusCode: 400, body: JSON.stringify({error: 'Missing required fields'}) };
+      return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({error: 'Missing required fields'}) };
     }
 
     const orderNumber = generateOrderNumber();
@@ -126,13 +136,14 @@ exports.handler = async function(event) {
 
     return {
       statusCode: 200,
-      headers: {'Content-Type': 'application/json'},
+      headers: {...corsHeaders, 'Content-Type': 'application/json'},
       body: JSON.stringify({orderNumber: orderNumber}),
     };
   } catch (err) {
     console.error('Order error:', err);
     return {
       statusCode: 500,
+      headers: corsHeaders,
       body: JSON.stringify({error: 'Failed to process order'}),
     };
   }
