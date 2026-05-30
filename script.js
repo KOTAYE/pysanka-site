@@ -51,6 +51,12 @@ let PRODUCTS = [
   // Великодні
   { id: 15, name: '«Великодня хата»', school: 'Покутська', price: 540, eggType: 'curyche', desc: 'Травлена писанка з зображенням української хати, дерев і поля. Великодній сільський мотив.', sv: 'easter', image: 'images/etched-cottage.webp' },
   { id: 16, name: '«Риба і коник»', school: 'Гуцульська', price: 580, eggType: 'curyche', desc: 'Риба як символ Христа, коник як символ достатку родини.', sv: 'fish-horse' },
+
+  // Сертифікати
+  { id: 17, name: 'Сертифікат на 500 ₴', school: 'Сертифікат', price: 500, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на будь-яку писанку з магазину. Ідеальний подарунок для тих, хто цінує ручну роботу.', sv: 'cert', isCert: true },
+  { id: 18, name: 'Сертифікат на 1000 ₴', school: 'Сертифікат', price: 1000, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на одну або кілька писанок. Отримувач обирає сам — від курячої до гусячої.', sv: 'cert', isCert: true },
+  { id: 19, name: 'Сертифікат на 2000 ₴', school: 'Сертифікат', price: 2000, tag: 'Подарунок', tagDark: true, desc: 'Преміум-сертифікат — вистачить на страусову писанку або набір з кількох авторських робіт.', sv: 'cert', isCert: true },
+  { id: 20, name: 'Сертифікат на майстер-клас', school: 'Сертифікат', price: 800, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на індивідуальний майстер-клас з воскового розпису писанок. Усі матеріали включені.', sv: 'cert-workshop', isCert: true },
 ];
 
 /* ---------- DATA: COLLECTIONS ---------- */
@@ -76,6 +82,9 @@ let COLLECTIONS = [
   { id: 'easter', name: 'Великодні писанки', sub: 'З кошиком і каплицею',
     desc: 'Спеціальні великодні мотиви — з одного боку зображення кошика з пасками, з іншого — каплиці чи церкви. Завжди симетрично.',
     count: 1, products: [15] },
+  { id: 'certificates', name: 'Подарункові сертифікати', sub: 'Даруйте емоції',
+    desc: 'Подарунковий сертифікат на писанку або майстер-клас — ідеальний подарунок для тих, хто цінує ручну роботу та українські традиції. Сертифікат діє 6 місяців.',
+    count: 4, products: [17,18,19,20] },
   { id: 'order', name: 'На замовлення', sub: 'Індивідуально',
     desc: 'Майстриня бере індивідуальні замовлення: за іменем дитини, з родинним мотивом, на весілля, хрестини. Термін виконання 14–21 день.',
     count: null, products: [], custom: true },
@@ -545,11 +554,63 @@ function svFishHorse(p, id) {
     + pysankaHighlight(id);
 }
 
+// Certificate — gift card visual
+function svCert(p, id) {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const svgBg = isDark ? '#1a1a1a' : '#f7f7f7';
+  const cardBg = isDark ? '#2c2c2c' : '#fff8eb';
+  const textCol = isDark ? '#f0f0f0' : '#181818';
+  return `
+  <rect x="0" y="0" width="200" height="240" rx="0" fill="${svgBg}"/>
+  <rect x="14" y="30" width="172" height="180" rx="14" fill="${cardBg}" stroke="${p.red}" stroke-width="2"/>
+  <rect x="14" y="30" width="172" height="44" rx="14" fill="${p.red}"/>
+  <rect x="14" y="60" width="172" height="14" fill="${p.red}"/>
+  <text x="100" y="60" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="16" font-weight="700" fill="#fff" letter-spacing="3">ПОДАРУНОК</text>
+  <g transform="translate(100,130)">
+    <ellipse cx="0" cy="0" rx="28" ry="34" fill="none" stroke="${textCol}" stroke-width="2"/>
+    <path d="M-24 -8 Q0 -14 24 -8" stroke="${p.red}" stroke-width="2.5" fill="none"/>
+    <path d="M-24 8 Q0 14 24 8" stroke="${p.red}" stroke-width="2.5" fill="none"/>
+    <circle cx="0" cy="0" r="7" fill="${p.red}"/>
+  </g>
+  <line x1="34" y1="186" x2="166" y2="186" stroke="${textCol}" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="100" y="200" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="11" fill="${textCol}" font-weight="700" letter-spacing="2">ПИСАН·КА</text>`;
+}
+
+// Certificate for workshop
+function svCertWorkshop(p, id) {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const svgBg = isDark ? '#1a1a1a' : '#f7f7f7';
+  const cardBg = isDark ? '#2c2c2c' : '#fff8eb';
+  const textCol = isDark ? '#f0f0f0' : '#181818';
+  const headerBg = isDark ? '#383838' : '#181818';
+  return `
+  <rect x="0" y="0" width="200" height="240" rx="0" fill="${svgBg}"/>
+  <rect x="14" y="30" width="172" height="180" rx="14" fill="${cardBg}" stroke="${textCol}" stroke-width="1.5"/>
+  <rect x="14" y="30" width="172" height="44" rx="14" fill="${headerBg}"/>
+  <rect x="14" y="60" width="172" height="14" fill="${headerBg}"/>
+  <text x="100" y="60" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="14" font-weight="700" fill="${p.red}" letter-spacing="2">МАЙСТЕР-КЛАС</text>
+  <g transform="translate(100,130)" stroke="${textCol}" stroke-width="2" fill="none">
+    <path d="M-14 18 L-14 -6 Q-14 -18 0 -22 Q14 -18 14 -6 L14 18"/>
+    <circle cx="0" cy="-22" r="5" fill="${p.red}"/>
+    <line x1="-6" y1="0" x2="6" y2="0"/>
+    <line x1="-6" y1="8" x2="6" y2="8"/>
+  </g>
+  <g fill="${p.red}">
+    <circle cx="48" cy="145" r="3"/>
+    <circle cx="152" cy="145" r="3"/>
+    <circle cx="48" cy="115" r="3"/>
+    <circle cx="152" cy="115" r="3"/>
+  </g>
+  <line x1="34" y1="186" x2="166" y2="186" stroke="${textCol}" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="100" y="200" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="11" fill="${textCol}" font-weight="700" letter-spacing="2">ПИСАН·КА</text>`;
+}
+
 const SVG_RENDERERS = {
   klyntsi: svKlyntsi, star: svStar, deer: svDeer, beregynya: svBeregynya,
   infinity: svInfinity, sun: svSun, 'sun-wheel': svSunWheel, kryvulky: svKryvulky,
   vazon: svVazon, rose: svRose, 'cross-dots': svCrossDots, wheat: svWheat,
   'ostrich-deer': svOstrichDeer, etched: svEtched, easter: svEaster, 'fish-horse': svFishHorse,
+  cert: svCert, 'cert-workshop': svCertWorkshop,
 };
 
 function pysankaSVG(variant, opts = {}) {

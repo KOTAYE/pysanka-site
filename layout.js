@@ -28,6 +28,7 @@ const HEADER_HTML = (active) => `
           <a href="shop.html?school=Лемківська">Лемківські</a>
           <a href="shop.html?school=Подільська">Подільські</a>
           <a href="shop.html?school=Авторська техніка">Травлені та страусові</a>
+          <a href="shop.html?school=Сертифікат">Подарункові сертифікати</a>
         </div>
       </div>
       <div class="nav-item ${active === 'collections' ? 'active' : ''}">
