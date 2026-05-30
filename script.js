@@ -554,82 +554,135 @@ function svFishHorse(p, id) {
     + pysankaHighlight(id);
 }
 
-// Certificate — premium gift card visual with ethnic ornament
+// Certificate — full artistic gift card with traditional Ukrainian ornament
 function svCert(p, id) {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  const svgBg = isDark ? '#161616' : '#f5f0e8';
-  const cardBg = isDark ? '#1e1e1e' : '#fffcf5';
-  const borderCol = isDark ? '#444' : '#c4a265';
-  const goldCol = isDark ? '#d4a537' : '#b8942a';
-  const textCol = isDark ? '#e8e0d0' : '#181818';
-  // Ethnic corner ornament
-  const corner = (tx, ty, rot) => `<g transform="translate(${tx},${ty}) rotate(${rot})">
-    <path d="M0 0 Q8 2 12 8 Q10 4 14 0" stroke="${goldCol}" stroke-width="1.2" fill="none"/>
-    <path d="M0 0 Q2 8 8 12 Q4 10 0 14" stroke="${goldCol}" stroke-width="1.2" fill="none"/>
-    <circle cx="0" cy="0" r="2" fill="${p.red}"/>
+  const bg = isDark ? '#141414' : '#f8f4ec';
+  const card = isDark ? '#1c1c1c' : '#fffdf7';
+  const gold = isDark ? '#d4a537' : '#a88530';
+  const goldLight = isDark ? '#b8942a' : '#c9a84e';
+  const border = isDark ? '#3a3a3a' : '#c4a265';
+  const txt = isDark ? '#e8dcc8' : '#1a1a1a';
+  const txtMuted = isDark ? '#7a7060' : '#9a8a6a';
+  // Traditional meander border band
+  const meander = (y, w) => {
+    let d = '';
+    for (let i = 0; i < 11; i++) {
+      const x = 26 + i * (w / 11);
+      d += (i === 0 ? 'M' : 'L') + x + ' ' + y;
+      d += ' l0 ' + (i % 2 === 0 ? '-5' : '5');
+      d += ' l' + (w / 22) + ' 0';
+      d += ' l0 ' + (i % 2 === 0 ? '5' : '-5');
+    }
+    return `<path d="${d}" stroke="${gold}" stroke-width="0.8" fill="none"/>`;
+  };
+  // Corner rosette (traditional 4-petal flower)
+  const rosette = (cx, cy, r) => `<g transform="translate(${cx},${cy})">
+    ${[0,90,180,270].map(a => `<ellipse cx="0" cy="${-r}" rx="${r*0.4}" ry="${r*0.7}" fill="${p.red}" opacity="0.85" transform="rotate(${a})"/>`).join('')}
+    <circle r="${r*0.35}" fill="${gold}"/>
+    <circle r="${r*0.15}" fill="${p.red}"/>
   </g>`;
   return `
-  <rect x="0" y="0" width="200" height="240" fill="${svgBg}"/>
-  <rect x="12" y="18" width="176" height="204" rx="8" fill="${cardBg}" stroke="${borderCol}" stroke-width="2"/>
-  <rect x="18" y="24" width="164" height="192" rx="5" fill="none" stroke="${borderCol}" stroke-width="0.8" stroke-dasharray="3,2"/>
-  ${corner(24, 30, 0)}${corner(176, 30, 90)}${corner(176, 210, 180)}${corner(24, 210, 270)}
-  <rect x="40" y="38" width="120" height="32" rx="4" fill="${p.red}"/>
-  <text x="100" y="60" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="13" font-weight="700" fill="#fff" letter-spacing="3">ПОДАРУНОК</text>
-  <g transform="translate(100,118)">
-    <ellipse cx="0" cy="0" rx="30" ry="36" fill="none" stroke="${textCol}" stroke-width="1.8"/>
-    <ellipse cx="0" cy="0" rx="22" ry="28" fill="none" stroke="${goldCol}" stroke-width="0.8"/>
-    <path d="M-26 -8 Q0 -15 26 -8" stroke="${p.red}" stroke-width="2" fill="none"/>
-    <path d="M-26 8 Q0 15 26 8" stroke="${p.red}" stroke-width="2" fill="none"/>
-    <circle cx="0" cy="0" r="6" fill="${p.red}"/>
-    <circle cx="0" cy="0" r="2.5" fill="${isDark ? '#1e1e1e' : '#fff'}"/>
+  <rect width="200" height="240" fill="${bg}"/>
+  <rect x="10" y="10" width="180" height="220" rx="6" fill="${card}" stroke="${border}" stroke-width="2"/>
+  <rect x="16" y="16" width="168" height="208" rx="4" fill="none" stroke="${gold}" stroke-width="0.6"/>
+  <rect x="20" y="20" width="160" height="200" rx="3" fill="none" stroke="${gold}" stroke-width="0.3" opacity="0.5"/>
+  ${meander(28, 148)}
+  ${meander(212, 148)}
+  ${rosette(26, 26, 6)}${rosette(174, 26, 6)}${rosette(174, 214, 6)}${rosette(26, 214, 6)}
+  <line x1="26" y1="36" x2="174" y2="36" stroke="${gold}" stroke-width="0.5"/>
+  <rect x="50" y="40" width="100" height="26" rx="13" fill="${p.red}"/>
+  <text x="100" y="58" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="12" font-weight="700" fill="#fff" letter-spacing="2.5">ПОДАРУНОК</text>
+  <text x="100" y="80" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="7" fill="${txtMuted}" letter-spacing="2">ПОДАРУНКОВИЙ СЕРТИФІКАТ</text>
+  <line x1="40" y1="86" x2="160" y2="86" stroke="${gold}" stroke-width="0.4"/>
+  <g transform="translate(100,132)">
+    <ellipse cx="0" cy="0" rx="32" ry="40" fill="none" stroke="${txt}" stroke-width="1.5"/>
+    <ellipse cx="0" cy="0" rx="26" ry="33" fill="none" stroke="${gold}" stroke-width="0.7"/>
+    <path d="M-28 -10 Q0 -18 28 -10" stroke="${p.red}" stroke-width="1.8" fill="none"/>
+    <path d="M-28 10 Q0 18 28 10" stroke="${p.red}" stroke-width="1.8" fill="none"/>
+    <path d="M-22 -5 Q0 -10 22 -5" stroke="${gold}" stroke-width="0.6" fill="none"/>
+    <path d="M-22 5 Q0 10 22 5" stroke="${gold}" stroke-width="0.6" fill="none"/>
+    ${[0,45,90,135,180,225,270,315].map(a => `<g transform="rotate(${a})"><circle cx="0" cy="-20" r="1.5" fill="${gold}"/></g>`).join('')}
+    <circle r="8" fill="${p.red}" stroke="${txt}" stroke-width="0.8"/>
+    <circle r="3" fill="${gold}"/>
+    <circle r="1.2" fill="${card}"/>
   </g>
-  <path d="M50 80 Q100 76 150 80" stroke="${goldCol}" stroke-width="0.8" fill="none"/>
-  <path d="M50 156 Q100 160 150 156" stroke="${goldCol}" stroke-width="0.8" fill="none"/>
-  <g fill="${goldCol}"><circle cx="50" cy="118" r="1.5"/><circle cx="150" cy="118" r="1.5"/></g>
-  <line x1="50" y1="184" x2="150" y2="184" stroke="${goldCol}" stroke-width="0.8"/>
-  <text x="100" y="198" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="11" fill="${textCol}" font-weight="700" letter-spacing="2">ПИСАН<tspan fill="${p.red}">·</tspan>КА</text>`;
+  <g fill="${gold}" opacity="0.7">
+    <circle cx="40" cy="132" r="1.5"/><circle cx="160" cy="132" r="1.5"/>
+    ${[96,108,120,132,144,156,168].map(y => `<circle cx="34" cy="${y}" r="0.8"/><circle cx="166" cy="${y}" r="0.8"/>`).join('')}
+  </g>
+  <path d="M60 90 Q100 95 140 90" stroke="${gold}" stroke-width="0.4" fill="none"/>
+  <path d="M60 174 Q100 170 140 174" stroke="${gold}" stroke-width="0.4" fill="none"/>
+  <line x1="26" y1="196" x2="174" y2="196" stroke="${gold}" stroke-width="0.5"/>
+  <text x="100" y="190" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="6.5" fill="${txtMuted}" letter-spacing="1.5">МАЙСТЕРНЯ ПИСАНКОВОГО РОЗПИСУ</text>
+  <text x="100" y="208" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="13" fill="${txt}" font-weight="700" letter-spacing="2">ПИСАН<tspan fill="${p.red}">·</tspan>КА</text>`;
 }
 
-// Certificate for workshop — premium design with candle/kystka motif
+// Certificate for workshop — artistic design with kystka, flame, wax drops
 function svCertWorkshop(p, id) {
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  const svgBg = isDark ? '#161616' : '#f0ece4';
-  const cardBg = isDark ? '#1e1e1e' : '#fffcf5';
-  const headerBg = isDark ? '#252525' : '#181818';
-  const borderCol = isDark ? '#444' : '#181818';
-  const goldCol = isDark ? '#d4a537' : '#b8942a';
-  const textCol = isDark ? '#e8e0d0' : '#181818';
-  // Ethnic border pattern
+  const bg = isDark ? '#141414' : '#f4f0e6';
+  const card = isDark ? '#1c1c1c' : '#fffdf7';
+  const gold = isDark ? '#d4a537' : '#a88530';
+  const border = isDark ? '#3a3a3a' : '#8a7550';
+  const txt = isDark ? '#e8dcc8' : '#1a1a1a';
+  const txtMuted = isDark ? '#7a7060' : '#9a8a6a';
+  const flame = isDark ? '#ffd080' : '#ff9e2c';
+  const flameInner = isDark ? '#ffe8b0' : '#ffd070';
+  const headerBg = isDark ? '#222' : '#181818';
+  // Zigzag traditional border band
   const zigzag = (y) => {
-    let d = `M24 ${y}`;
-    for (let i = 0; i < 22; i++) d += ` l4 ${i % 2 === 0 ? -4 : 4}`;
-    return `<path d="${d}" stroke="${goldCol}" stroke-width="0.8" fill="none"/>`;
+    let d = `M22 ${y}`;
+    for (let i = 0; i < 26; i++) d += ` l3 ${i % 2 === 0 ? -4 : 4}`;
+    return `<path d="${d}" stroke="${gold}" stroke-width="0.7" fill="none"/>`;
+  };
+  // Wave band
+  const wave = (y) => {
+    let d = `M26 ${y}`;
+    for (let i = 0; i < 8; i++) d += ` Q${26 + i*19 + 9.5} ${y + (i%2===0?-4:4)} ${26 + (i+1)*19} ${y}`;
+    return `<path d="${d}" stroke="${gold}" stroke-width="0.5" fill="none"/>`;
   };
   return `
-  <rect x="0" y="0" width="200" height="240" fill="${svgBg}"/>
-  <rect x="12" y="18" width="176" height="204" rx="8" fill="${cardBg}" stroke="${borderCol}" stroke-width="2"/>
-  <rect x="18" y="24" width="164" height="192" rx="5" fill="none" stroke="${borderCol}" stroke-width="0.6"/>
-  ${zigzag(80)}${zigzag(162)}
-  <rect x="36" y="34" width="128" height="36" rx="4" fill="${headerBg}"/>
-  <text x="100" y="50" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="10" fill="${goldCol}" letter-spacing="2" font-weight="700">МАЙСТЕР-КЛАС</text>
-  <text x="100" y="64" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="8" fill="${isDark ? '#888' : '#999'}" letter-spacing="1">ВОСКОВОГО РОЗПИСУ</text>
-  <g transform="translate(100,120)">
-    <path d="M-10 22 L-10 -4 Q-10 -16 0 -22 Q10 -16 10 -4 L10 22" stroke="${textCol}" stroke-width="2" fill="none"/>
-    <circle cx="0" cy="-22" r="6" fill="${p.red}"/>
-    <circle cx="0" cy="-22" r="2.5" fill="${isDark ? '#ffd080' : '#ffb830'}"/>
-    <path d="M0 -28 Q-2 -34 0 -38 Q2 -34 0 -28" fill="${isDark ? '#ffd080' : '#ffb830'}" opacity="0.8"/>
-    <line x1="-5" y1="4" x2="5" y2="4" stroke="${textCol}" stroke-width="1.5"/>
-    <line x1="-5" y1="10" x2="5" y2="10" stroke="${textCol}" stroke-width="1.5"/>
-    <line x1="-5" y1="16" x2="5" y2="16" stroke="${textCol}" stroke-width="1.5"/>
+  <rect width="200" height="240" fill="${bg}"/>
+  <rect x="10" y="10" width="180" height="220" rx="6" fill="${card}" stroke="${border}" stroke-width="2"/>
+  <rect x="16" y="16" width="168" height="208" rx="4" fill="none" stroke="${gold}" stroke-width="0.5"/>
+  ${zigzag(24)}${zigzag(218)}
+  <line x1="22" y1="32" x2="178" y2="32" stroke="${gold}" stroke-width="0.4"/>
+  <rect x="38" y="38" width="124" height="34" rx="4" fill="${headerBg}"/>
+  <text x="100" y="54" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="11" fill="${gold}" font-weight="700" letter-spacing="2.5">МАЙСТЕР-КЛАС</text>
+  <text x="100" y="66" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="6.5" fill="${isDark ? '#666' : '#aaa'}" letter-spacing="1.5">ВОСКОВОГО РОЗПИСУ ПИСАНОК</text>
+  ${wave(80)}
+  <g transform="translate(100,126)">
+    <path d="M-12 28 L-12 -2 Q-12 -18 0 -24 Q12 -18 12 -2 L12 28" stroke="${txt}" stroke-width="2" fill="none"/>
+    <path d="M-8 28 L-8 2 Q-8 -12 0 -16 Q8 -12 8 2 L8 28" stroke="${gold}" stroke-width="0.6" fill="none"/>
+    <ellipse cx="0" cy="-24" rx="7" ry="8" fill="${p.red}"/>
+    <ellipse cx="0" cy="-26" rx="4" ry="5" fill="${flame}"/>
+    <ellipse cx="0" cy="-28" rx="2" ry="3" fill="${flameInner}"/>
+    <path d="M0 -36 Q-3 -42 0 -48 Q3 -42 0 -36" fill="${flame}" opacity="0.6"/>
+    <path d="M-4 -32 Q-6 -36 -3 -40" stroke="${flame}" stroke-width="0.5" fill="none" opacity="0.5"/>
+    <path d="M4 -32 Q6 -36 3 -40" stroke="${flame}" stroke-width="0.5" fill="none" opacity="0.5"/>
+    <line x1="-6" y1="6" x2="6" y2="6" stroke="${txt}" stroke-width="1.2"/>
+    <line x1="-6" y1="12" x2="6" y2="12" stroke="${txt}" stroke-width="1.2"/>
+    <line x1="-6" y1="18" x2="6" y2="18" stroke="${txt}" stroke-width="1.2"/>
+    <line x1="-6" y1="24" x2="6" y2="24" stroke="${txt}" stroke-width="1.2"/>
+    <g fill="${p.red}" opacity="0.7">
+      <circle cx="-18" cy="0" r="2"/><circle cx="18" cy="0" r="2"/>
+      <circle cx="-22" cy="12" r="1.5"/><circle cx="22" cy="12" r="1.5"/>
+      <circle cx="-18" cy="24" r="1.2"/><circle cx="18" cy="24" r="1.2"/>
+    </g>
   </g>
-  <g fill="${p.red}" opacity="0.9">
-    <circle cx="52" cy="106" r="2.5"/><circle cx="148" cy="106" r="2.5"/>
-    <circle cx="52" cy="134" r="2.5"/><circle cx="148" cy="134" r="2.5"/>
-    <circle cx="42" cy="120" r="1.8"/><circle cx="158" cy="120" r="1.8"/>
+  <g fill="${gold}" opacity="0.6">
+    ${[96,108,120,132,144].map(y => `<circle cx="36" cy="${y}" r="0.8"/><circle cx="164" cy="${y}" r="0.8"/>`).join('')}
   </g>
-  <text x="100" y="176" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="9" fill="${isDark ? '#888' : '#666'}" letter-spacing="0.5">від 6 осіб · 400 ₴/особа</text>
-  <line x1="50" y1="188" x2="150" y2="188" stroke="${goldCol}" stroke-width="0.8"/>
-  <text x="100" y="202" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="11" fill="${textCol}" font-weight="700" letter-spacing="2">ПИСАН<tspan fill="${p.red}">·</tspan>КА</text>`;
+  <g transform="translate(52,112)"><ellipse rx="6" ry="8" fill="none" stroke="${gold}" stroke-width="0.6"/><circle r="2" fill="${p.red}" opacity="0.5"/></g>
+  <g transform="translate(148,112)"><ellipse rx="6" ry="8" fill="none" stroke="${gold}" stroke-width="0.6"/><circle r="2" fill="${p.red}" opacity="0.5"/></g>
+  <g transform="translate(52,148)"><ellipse rx="6" ry="8" fill="none" stroke="${gold}" stroke-width="0.6"/><circle r="2" fill="${p.red}" opacity="0.5"/></g>
+  <g transform="translate(148,148)"><ellipse rx="6" ry="8" fill="none" stroke="${gold}" stroke-width="0.6"/><circle r="2" fill="${p.red}" opacity="0.5"/></g>
+  ${wave(168)}
+  <text x="100" y="182" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="7.5" fill="${txtMuted}" letter-spacing="1">від 6 осіб · 400 ₴ за кожного учасника</text>
+  <line x1="30" y1="196" x2="170" y2="196" stroke="${gold}" stroke-width="0.5"/>
+  <text x="100" y="190" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="6" fill="${txtMuted}" letter-spacing="1.5">МАЙСТЕРНЯ ПИСАНКОВОГО РОЗПИСУ</text>
+  <text x="100" y="210" text-anchor="middle" font-family="Arsenal,sans-serif" font-size="13" fill="${txt}" font-weight="700" letter-spacing="2">ПИСАН<tspan fill="${p.red}">·</tspan>КА</text>`;
 }
 
 const SVG_RENDERERS = {
