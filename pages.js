@@ -275,9 +275,12 @@ function renderProductDetailPage() {
                 Додати в кошик
                 <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </button>
-              <button class="btn-icon" onclick="toggleFav(this)" aria-label="В обране">
+              ${product.isCert ? `<a class="btn btn-ghost" href="certificate.html?id=${product.id}">
+                Переглянути сертифікат
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+              </a>` : `<button class="btn-icon" onclick="toggleFav(this)" aria-label="В обране">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-4.5-9.5-9C1 9 3 5 7 5c2.5 0 4 1.5 5 3 1-1.5 2.5-3 5-3 4 0 6 4 4.5 7-2.5 4.5-9.5 9-9.5 9z"/></svg>
-              </button>
+              </button>`}
             </div>
 
             <div class="product-detail-meta">
