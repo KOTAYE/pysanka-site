@@ -2301,6 +2301,121 @@ footer {
   color: var(--text-dim);
 }
 
+/* =================================================================
+   PHOTO-BASED GIFT CERTIFICATES
+   ================================================================= */
+.cert-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Arsenal', sans-serif;
+}
+.cert-photo-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.product-card:hover .cert-photo-bg { transform: scale(1.05); }
+.cert-photo-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(10,8,4,0.15) 0%, rgba(10,8,4,0.55) 70%, rgba(10,8,4,0.78) 100%),
+    linear-gradient(180deg, rgba(10,8,4,0.45) 0%, rgba(10,8,4,0.1) 40%, rgba(10,8,4,0.6) 100%);
+}
+/* Ornamental gold frame */
+.cert-photo-frame {
+  position: absolute;
+  inset: 14px;
+  border: 1.5px solid rgba(212,165,55,0.75);
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 3px rgba(212,165,55,0.18);
+}
+.cert-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #E9b949;
+}
+.cert-corner.tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+.cert-corner.tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+.cert-corner.bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+.cert-corner.br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+.cert-photo-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px 22px;
+  color: #fff;
+}
+.cert-photo-kicker {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #f0d99a;
+  margin-bottom: 10px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+}
+.cert-photo-amount {
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.8), 0 0 30px rgba(233,112,0,0.35);
+  margin-bottom: 6px;
+}
+.cert-photo--workshop .cert-photo-amount {
+  font-size: 24px;
+  letter-spacing: 0.06em;
+}
+.cert-photo-sub {
+  font-size: 13px;
+  color: #f0d99a;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  margin-bottom: 4px;
+}
+.cert-photo-rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #E9b949;
+  font-size: 11px;
+  margin: 14px 0;
+  width: 70%;
+}
+.cert-photo-rule span {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,165,55,0.8), transparent);
+}
+.cert-photo-brand {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+}
+.cert-photo-brand i {
+  color: #E97000;
+  font-style: normal;
+}
+.cert-photo-master {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.78);
+  margin-top: 6px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
 /* Events responsive */
 @media (max-width: 768px) {
   .featured-event { grid-template-columns: 1fr; }

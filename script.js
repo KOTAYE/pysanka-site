@@ -52,11 +52,11 @@ let PRODUCTS = [
   { id: 15, name: '«Великодня хата»', school: 'Покутська', price: 540, eggType: 'curyche', desc: 'Травлена писанка з зображенням української хати, дерев і поля. Великодній сільський мотив.', sv: 'easter', image: 'images/etched-cottage.webp' },
   { id: 16, name: '«Риба і коник»', school: 'Гуцульська', price: 580, eggType: 'curyche', desc: 'Риба як символ Христа, коник як символ достатку родини.', sv: 'fish-horse' },
 
-  // Сертифікати
-  { id: 17, name: 'Сертифікат на 500 ₴', school: 'Сертифікат', price: 500, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на будь-яку писанку з магазину. Ідеальний подарунок для тих, хто цінує ручну роботу.', sv: 'cert', isCert: true },
-  { id: 18, name: 'Сертифікат на 1000 ₴', school: 'Сертифікат', price: 1000, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на одну або кілька писанок. Отримувач обирає сам — від курячої до гусячої.', sv: 'cert', isCert: true },
-  { id: 19, name: 'Сертифікат на 2000 ₴', school: 'Сертифікат', price: 2000, tag: 'Подарунок', tagDark: true, desc: 'Преміум-сертифікат — вистачить на страусову писанку або набір з кількох авторських робіт.', sv: 'cert', isCert: true },
-  { id: 20, name: 'Майстер-клас (група)', school: 'Сертифікат', price: 3000, tag: 'Група', tagDark: true, desc: 'Груповий майстер-клас з воскового розпису (від 6 осіб, мін. 3000 ₴). Кожен додатковий учасник — 400 ₴. Усі матеріали включені: писачки, віск, барвники, яйця.', sv: 'cert-workshop', isCert: true },
+  // Сертифікати — фото справжніх робіт майстрині як фон
+  { id: 17, name: 'Сертифікат на 500 ₴', school: 'Сертифікат', price: 500, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на будь-яку писанку з магазину. Ідеальний подарунок для тих, хто цінує ручну роботу.', sv: 'cert', isCert: true, certBg: 'images/bukovyna-rose.webp', certAmount: '500 ₴' },
+  { id: 18, name: 'Сертифікат на 1000 ₴', school: 'Сертифікат', price: 1000, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на одну або кілька писанок. Отримувач обирає сам — від курячої до гусячої.', sv: 'cert', isCert: true, certBg: 'images/geometric-blue.webp', certAmount: '1000 ₴' },
+  { id: 19, name: 'Сертифікат на 2000 ₴', school: 'Сертифікат', price: 2000, tag: 'Подарунок', tagDark: true, desc: 'Преміум-сертифікат — вистачить на страусову писанку або набір з кількох авторських робіт.', sv: 'cert', isCert: true, certBg: 'images/hero-ostrich-white.jpg', certAmount: '2000 ₴' },
+  { id: 20, name: 'Майстер-клас (група)', school: 'Сертифікат', price: 3000, tag: 'Група', tagDark: true, desc: 'Груповий майстер-клас з воскового розпису (від 6 осіб, мін. 3000 ₴). Кожен додатковий учасник — 400 ₴. Усі матеріали включені: писачки, віск, барвники, яйця.', sv: 'cert-workshop', isCert: true, certBg: 'images/etched-set.webp', certAmount: 'МАЙСТЕР-КЛАС', certSub: 'від 6 осіб · 400 ₴/особа' },
 ];
 
 /* ---------- DATA: COLLECTIONS ---------- */
@@ -705,12 +705,40 @@ function pysankaSVG(variant, opts = {}) {
 // Returns either a real product photo <img> or a fallback SVG.
 // Use this everywhere instead of pysankaSVG() when rendering products.
 function productVisual(product, opts = {}) {
+  // Certificates — real pysanka photo with elegant gift-certificate overlay
+  if (product && product.isCert && product.certBg) {
+    return certificateVisual(product, opts);
+  }
   if (product && product.image) {
     const alt = product.name ? product.name.replace(/«|»/g, '') : 'Писанка';
     const cls = opts.className || 'product-photo';
     return `<img class="${cls}" src="${product.image}" alt="${alt}" loading="lazy">`;
   }
   return pysankaSVG(product?.sv || 'klyntsi', opts);
+}
+
+// Photo-based gift certificate: real pysanka image + ornamental frame + text overlay
+function certificateVisual(product, opts = {}) {
+  const isWorkshop = product.sv === 'cert-workshop';
+  const amount = product.certAmount || (product.price + ' ₴');
+  const sub = product.certSub || '';
+  return `
+    <div class="cert-photo${isWorkshop ? ' cert-photo--workshop' : ''}">
+      <img class="cert-photo-bg" src="${product.certBg}" alt="${product.name}" loading="lazy">
+      <div class="cert-photo-tint"></div>
+      <div class="cert-photo-frame">
+        <span class="cert-corner tl"></span><span class="cert-corner tr"></span>
+        <span class="cert-corner bl"></span><span class="cert-corner br"></span>
+      </div>
+      <div class="cert-photo-content">
+        <div class="cert-photo-kicker">Подарунковий сертифікат</div>
+        <div class="cert-photo-amount">${amount}</div>
+        ${sub ? `<div class="cert-photo-sub">${sub}</div>` : ''}
+        <div class="cert-photo-rule"><span></span>✦<span></span></div>
+        <div class="cert-photo-brand">Писан<i>·</i>ка</div>
+        <div class="cert-photo-master">майстерня Галини Сиротюк-Пʼятничук</div>
+      </div>
+    </div>`;
 }
 
 // Re-render all SVG pysanky on theme change to pick up dark palette.
