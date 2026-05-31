@@ -53,9 +53,9 @@ let PRODUCTS = [
   { id: 16, name: '«Риба і коник»', school: 'Гуцульська', price: 580, eggType: 'curyche', desc: 'Риба як символ Христа, коник як символ достатку родини.', sv: 'fish-horse' },
 
   // Сертифікати — фото справжніх робіт майстрині як фон
-  { id: 17, name: 'Сертифікат на 500 ₴', school: 'Сертифікат', price: 500, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на будь-яку писанку з магазину. Ідеальний подарунок для тих, хто цінує ручну роботу.', sv: 'cert', isCert: true, certBg: 'images/bukovyna-rose.webp', certAmount: '500 ₴' },
-  { id: 18, name: 'Сертифікат на 1000 ₴', school: 'Сертифікат', price: 1000, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на одну або кілька писанок. Отримувач обирає сам — від курячої до гусячої.', sv: 'cert', isCert: true, certBg: 'images/geometric-blue.webp', certAmount: '1000 ₴' },
-  { id: 19, name: 'Сертифікат на 2000 ₴', school: 'Сертифікат', price: 2000, tag: 'Подарунок', tagDark: true, desc: 'Преміум-сертифікат — вистачить на страусову писанку або набір з кількох авторських робіт.', sv: 'cert', isCert: true, certBg: 'images/hero-ostrich-white.jpg', certAmount: '2000 ₴' },
+  { id: 17, name: 'Сертифікат на 1000 ₴', school: 'Сертифікат', price: 1000, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на будь-яку писанку з магазину. Ідеальний подарунок для тих, хто цінує ручну роботу.', sv: 'cert', isCert: true, certBg: 'images/bukovyna-rose.webp', certAmount: '1000 ₴' },
+  { id: 18, name: 'Сертифікат на 2000 ₴', school: 'Сертифікат', price: 2000, tag: 'Подарунок', tagDark: true, desc: 'Подарунковий сертифікат на одну або кілька писанок. Отримувач обирає сам — від курячої до гусячої.', sv: 'cert', isCert: true, certBg: 'images/geometric-blue.webp', certAmount: '2000 ₴' },
+  { id: 19, name: 'Сертифікат на 3000 ₴', school: 'Сертифікат', price: 3000, tag: 'Подарунок', tagDark: true, desc: 'Преміум-сертифікат — вистачить на страусову писанку або набір з кількох авторських робіт.', sv: 'cert', isCert: true, certBg: 'images/hero-ostrich-white.jpg', certAmount: '3000 ₴' },
   { id: 20, name: 'Майстер-клас (група)', school: 'Сертифікат', price: 3000, tag: 'Група', tagDark: true, desc: 'Груповий майстер-клас з воскового розпису (від 6 осіб, мін. 3000 ₴). Кожен додатковий учасник — 400 ₴. Усі матеріали включені: писачки, віск, барвники, яйця.', sv: 'cert-workshop', isCert: true, certBg: 'images/etched-set.webp', certAmount: 'МАЙСТЕР-КЛАС', certSub: 'від 6 осіб · 400 ₴/особа' },
 ];
 
