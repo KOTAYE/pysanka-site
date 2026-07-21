@@ -112,7 +112,7 @@ const FOOTER_HTML = `
         <h5>Інтернет-магазин</h5>
         <a href="#">Договір-оферта</a>
         <a href="#">Умови використання сайту</a>
-        <a href="#">Доставка та оплата</a>
+        <a href="delivery.html">Доставка та оплата</a>
         <a href="#">Як зберігати писанку</a>
         <a href="events.html">Події</a>
         <a href="blog.html">Блог</a>
