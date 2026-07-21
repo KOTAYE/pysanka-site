@@ -64,7 +64,7 @@ const HEADER_HTML = (active) => `
         </span>
         <div class="header-phone-list">
           <a href="tel:+380975991959">+380 97 599 19 59</a>
-          <a class="order-call" href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener">Написати в Instagram</a>
+          <a class="order-call" href="https://www.instagram.com/_pysanky__/" target="_blank" rel="noopener">Написати в Instagram</a>
         </div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme(); reRenderPysanky();" aria-label="Змінити тему">
@@ -130,15 +130,18 @@ const FOOTER_HTML = `
       <div class="footer-col">
         <h5>Зв'язок</h5>
         <a href="tel:+380975991959">+380 97 599 19 59</a>
-        <a href="mailto:hello@pysanka.ua">hello@pysanka.ua</a>
+        <a href="mailto:syrotiukva@gmail.com">syrotiukva@gmail.com</a>
         <p>Пн-Пт, 9:00 – 18:00</p>
         <p style="margin-top:14px">м. Коломия, Івано-Франківська область</p>
         <div style="display:flex;gap:10px;margin-top:14px;">
-          <a href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener" style="display:inline-flex;width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;align-items:center;justify-content:center;margin-bottom:0;">
+          <a href="https://www.instagram.com/_pysanky__/" target="_blank" rel="noopener" style="display:inline-flex;width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;align-items:center;justify-content:center;margin-bottom:0;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
           </a>
-          <a href="https://www.pinterest.com/surotuyk/" target="_blank" rel="noopener" style="display:inline-flex;width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;align-items:center;justify-content:center;margin-bottom:0;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M8 19 L12 8 M12 8 Q15 8 15 11 Q15 14 12 14"/></svg>
+          <a href="https://www.facebook.com/galina.sirotuk.471659/" target="_blank" rel="noopener" aria-label="Facebook" style="display:inline-flex;width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;align-items:center;justify-content:center;margin-bottom:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/@halyna_017" target="_blank" rel="noopener" aria-label="TikTok" style="display:inline-flex;width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;align-items:center;justify-content:center;margin-bottom:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3v9.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M16 6.5a5 5 0 0 0 4.5 3"/></svg>
           </a>
         </div>
       </div>
@@ -254,8 +257,9 @@ const FOOTER_HTML = `
       +380 97 599 19 59
     </a>
     <div class="mm-socials">
-      <a href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
-      <a href="https://www.pinterest.com/surotuyk/" target="_blank" rel="noopener" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M8 19 L12 8 M12 8 Q15 8 15 11 Q15 14 12 14"/></svg></a>
+      <a href="https://www.instagram.com/_pysanky__/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+      <a href="https://www.facebook.com/galina.sirotuk.471659/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      <a href="https://www.tiktok.com/@halyna_017" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M16 3v9.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M16 6.5a5 5 0 0 0 4.5 3"/></svg></a>
     </div>
   </div>
 </aside>

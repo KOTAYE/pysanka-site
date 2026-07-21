@@ -116,7 +116,7 @@ exports.handler = async function(event) {
     });
 
     // 2. Email to master
-    var masterEmail = process.env.MASTER_EMAIL || 'g.syrotiuk@example.com';
+    var masterEmail = process.env.MASTER_EMAIL || 'syrotiukva@gmail.com';
     await resend.emails.send({
       from: process.env.EMAIL_FROM || 'Писанка <onboarding@resend.dev>',
       to: masterEmail,

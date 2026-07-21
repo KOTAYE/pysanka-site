@@ -674,7 +674,7 @@ function renderBlogDetailPage() {
     "author": {
       "@type": "Person",
       "name": "Галина Сиротюк-П'ятничук",
-      "url": "https://www.instagram.com/g.syrotiuk/"
+      "url": "https://www.instagram.com/_pysanky__/"
     },
     "publisher": {
       "@type": "Organization",
