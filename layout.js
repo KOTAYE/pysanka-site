@@ -64,14 +64,14 @@ const HEADER_HTML = (active) => `
         </span>
         <div class="header-phone-list">
           <a href="tel:+380970000001">+380 97 000 00 01</a>
-          <a class="order-call" onclick="alert('Форма зворотного дзвінка')">Замовити дзвінок</a>
+          <a class="order-call" href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener">Написати в Instagram</a>
         </div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme(); reRenderPysanky();" aria-label="Змінити тему">
         <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
       </button>
-      <button onclick="alert('Пошук — буде додано')" aria-label="Пошук" style="display:flex;align-items:center;gap:6px;">
+      <button onclick="openSearch()" aria-label="Пошук" style="display:flex;align-items:center;gap:6px;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
       </button>
       <button onclick="openCart()" aria-label="Кошик">
@@ -80,7 +80,7 @@ const HEADER_HTML = (active) => `
       </button>
     </div>
 
-    <button class="burger" aria-label="Меню" onclick="alert('Мобільне меню')">
+    <button class="burger" aria-label="Меню" onclick="openMobileMenu()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
   </div>
@@ -220,6 +220,57 @@ const FOOTER_HTML = `
     </form>
   </div>
 </div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu-bg" id="mobile-menu-bg" onclick="closeMobileMenu()"></div>
+<aside class="mobile-menu" id="mobile-menu" aria-label="Мобільне меню">
+  <div class="mobile-menu-head">
+    <a href="index.html" class="mobile-menu-logo">Писан<span>•</span>ка</a>
+    <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Закрити">×</button>
+  </div>
+  <button class="mobile-menu-search" onclick="closeMobileMenu(); openSearch();">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+    Пошук писанок
+  </button>
+  <nav class="mobile-menu-nav">
+    <a href="shop.html" class="mm-main">Магазин</a>
+    <div class="mm-sub">
+      <a href="shop.html?school=Гуцульська">Гуцульські</a>
+      <a href="shop.html?school=Покутська">Покутські</a>
+      <a href="shop.html?school=Буковинська">Буковинські</a>
+      <a href="shop.html?school=Бойківська">Бойківські</a>
+      <a href="shop.html?school=Лемківська">Лемківські</a>
+      <a href="shop.html?school=Авторська техніка">Травлені та страусові</a>
+      <a href="shop.html?school=Сертифікат">Сертифікати</a>
+    </div>
+    <a href="collections.html" class="mm-main">Колекції</a>
+    <a href="events.html" class="mm-main">Події</a>
+    <a href="blog.html" class="mm-main">Блог</a>
+    <a href="index.html#contacts" class="mm-main">Контакти</a>
+  </nav>
+  <div class="mobile-menu-foot">
+    <a href="tel:+380970000001" class="mm-phone">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+      +380 97 000 00 01
+    </a>
+    <div class="mm-socials">
+      <a href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+      <a href="https://www.pinterest.com/surotuyk/" target="_blank" rel="noopener" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M8 19 L12 8 M12 8 Q15 8 15 11 Q15 14 12 14"/></svg></a>
+    </div>
+  </div>
+</aside>
+
+<!-- Search Overlay -->
+<div class="search-overlay" id="search-overlay" onclick="if(event.target.id==='search-overlay') closeSearch()">
+  <div class="search-box">
+    <div class="search-input-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+      <input type="text" id="search-input" placeholder="Знайти писанку: школа, назва…" oninput="doSearch(this.value)" autocomplete="off">
+      <button class="search-close" onclick="closeSearch()" aria-label="Закрити">×</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+  </div>
+</div>
 `;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -230,4 +281,67 @@ document.addEventListener('DOMContentLoaded', () => {
   if (footerSlot) footerSlot.innerHTML = FOOTER_HTML;
 
   updateCartCount();
+});
+
+/* ---------- MOBILE MENU ---------- */
+function openMobileMenu() {
+  document.getElementById('mobile-menu')?.classList.add('open');
+  document.getElementById('mobile-menu-bg')?.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobileMenu() {
+  document.getElementById('mobile-menu')?.classList.remove('open');
+  document.getElementById('mobile-menu-bg')?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ---------- SEARCH ---------- */
+function openSearch() {
+  const ov = document.getElementById('search-overlay');
+  if (!ov) return;
+  ov.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const input = document.getElementById('search-input');
+  if (input) { input.value = ''; setTimeout(() => input.focus(), 50); }
+  doSearch('');
+}
+function closeSearch() {
+  document.getElementById('search-overlay')?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+function doSearch(query) {
+  const box = document.getElementById('search-results');
+  if (!box || typeof PRODUCTS === 'undefined') return;
+  const q = (query || '').trim().toLowerCase();
+  let list = PRODUCTS;
+  if (q) {
+    list = PRODUCTS.filter(p =>
+      (p.name || '').toLowerCase().includes(q) ||
+      (p.school || '').toLowerCase().includes(q) ||
+      (p.desc || '').toLowerCase().includes(q)
+    );
+  }
+  if (!q) {
+    box.innerHTML = '<div class="search-hint">Почніть вводити — наприклад «гуцульська», «страусове» або «сертифікат».</div>';
+    return;
+  }
+  if (list.length === 0) {
+    box.innerHTML = `<div class="search-hint">Нічого не знайдено за запитом «${query}». <a href="shop.html">Перейти в магазин →</a></div>`;
+    return;
+  }
+  box.innerHTML = list.slice(0, 8).map(p => `
+    <a class="search-item" href="product.html?id=${p.id}">
+      <span class="search-item-thumb" ${p.image ? `style="background-image:url('${p.image}')"` : ''}></span>
+      <span class="search-item-info">
+        <span class="search-item-name">${p.name}</span>
+        <span class="search-item-meta">${p.school || ''}</span>
+      </span>
+      <span class="search-item-price">${p.price} ₴</span>
+    </a>
+  `).join('');
+}
+
+/* Escape закриває меню/пошук */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { closeMobileMenu(); closeSearch(); }
 });
