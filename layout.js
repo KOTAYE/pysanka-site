@@ -59,11 +59,11 @@ const HEADER_HTML = (active) => `
       <div class="header-phone">
         <span class="label">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
-          +380 97 000 00 01
+          +380 97 599 19 59
           <span class="chev"></span>
         </span>
         <div class="header-phone-list">
-          <a href="tel:+380970000001">+380 97 000 00 01</a>
+          <a href="tel:+380975991959">+380 97 599 19 59</a>
           <a class="order-call" href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener">Написати в Instagram</a>
         </div>
       </div>
@@ -129,7 +129,7 @@ const FOOTER_HTML = `
       </div>
       <div class="footer-col">
         <h5>Зв'язок</h5>
-        <a href="tel:+380970000001">+380 97 000 00 01</a>
+        <a href="tel:+380975991959">+380 97 599 19 59</a>
         <a href="mailto:hello@pysanka.ua">hello@pysanka.ua</a>
         <p>Пн-Пт, 9:00 – 18:00</p>
         <p style="margin-top:14px">м. Коломия, Івано-Франківська область</p>
@@ -249,9 +249,9 @@ const FOOTER_HTML = `
     <a href="index.html#contacts" class="mm-main">Контакти</a>
   </nav>
   <div class="mobile-menu-foot">
-    <a href="tel:+380970000001" class="mm-phone">
+    <a href="tel:+380975991959" class="mm-phone">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
-      +380 97 000 00 01
+      +380 97 599 19 59
     </a>
     <div class="mm-socials">
       <a href="https://www.instagram.com/g.syrotiuk/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>

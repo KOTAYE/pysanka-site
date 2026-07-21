@@ -88,7 +88,7 @@ describe('Order function - staging', () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        customer: { name: 'Test Order', phone: '+380970000001' },
+        customer: { name: 'Test Order', phone: '+380975991959' },
         delivery: { city: 'Тест', np: '1' },
         items: [{ productName: 'Тестова писанка', quantity: 1, price: 100 }],
         paymentMethod: 'cod',

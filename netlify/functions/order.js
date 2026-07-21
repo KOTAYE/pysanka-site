@@ -61,7 +61,7 @@ function buildCustomerEmail(order) {
     '<p>Оплата: ' + (order.paymentMethod === 'cod' ? 'Накладений платіж при отриманні' : 'Переказ на картку (реквізити надішлемо окремо)') + '</p>' +
     '<div style="margin-top:24px;padding:16px;background:#f7f7f7;border-radius:8px">' +
     "<p style=\"margin:0\">Ми зв'яжемося з вами для підтвердження замовлення протягом доби.</p>" +
-    '<p style="margin:8px 0 0">Телефон: +380 97 000 00 01</p></div></div>' +
+    '<p style="margin:8px 0 0">Телефон: +380 97 599 19 59</p></div></div>' +
     "<div style=\"padding:16px;text-align:center;color:#9e9e9e;font-size:12px\"><p>Писан·ка — майстерня Галини Сиротюк-П'ятничук, м. Коломия</p></div></div>";
 }
 

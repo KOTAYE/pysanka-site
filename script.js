@@ -1244,7 +1244,7 @@ function renderEventCard(ev, isPast) {
           ${ev.externalLink
             ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="ec-link">${ev.externalLinkLabel || 'Детальніше'} →</a>`
             : (ev.eventType === 'workshop' && !isPast
-              ? `<a href="tel:+380970000001" class="ec-link">Записатися →</a>`
+              ? `<a href="tel:+380975991959" class="ec-link">Записатися →</a>`
               : `<span class="ec-link" style="visibility:hidden;">—</span>`)}
         </div>
       </div>
@@ -1279,7 +1279,7 @@ function renderFeaturedEvent(ev) {
         ${ev.description ? `<div class="fe-desc">${ev.description}</div>` : ''}
         <div class="fe-actions">
           ${ev.eventType === 'workshop'
-            ? `<a href="tel:+380970000001" class="btn">Записатися →</a>`
+            ? `<a href="tel:+380975991959" class="btn">Записатися →</a>`
             : ''}
           ${ev.externalLink ? `<a href="${ev.externalLink}" target="_blank" rel="noopener" class="btn ${ev.eventType === 'workshop' ? 'btn-ghost' : ''}">${ev.externalLinkLabel || 'Детальніше'} →</a>` : ''}
         </div>
