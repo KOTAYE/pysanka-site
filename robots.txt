@@ -1,5 +1,5 @@
 # Писан·ка — Майстерня писанкового розпису
-# https://pysanky-syrotiuk.com.ua
+# https://pysanky-syrotiuk.com
 
 User-agent: *
 Allow: /
@@ -9,7 +9,7 @@ Disallow: /tests/
 Disallow: /.codesandbox/
 
 # Sitemap
-Sitemap: https://pysanky-syrotiuk.com.ua/sitemap.xml
+Sitemap: https://pysanky-syrotiuk.com/sitemap.xml
 
 # AI Bots — дозволено (GEO стратегія 2026)
 User-agent: GPTBot

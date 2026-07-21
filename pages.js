@@ -2,6 +2,17 @@
    PYSANKA SITE — DETAIL PAGES (product detail + blog detail)
    ================================================================= */
 
+/* Встановлює/оновлює <link rel="canonical"> для динамічних сторінок (?id=…) */
+function setCanonical(url) {
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'canonical');
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', url);
+}
+
 /* ---------- РОЗШИРЕНІ ДАНІ ПРОДУКТУ ---------- */
 let PRODUCT_DETAILS = {
   // Кожному id з PRODUCTS відповідає об'єкт з додатковою інформацією
@@ -211,20 +222,26 @@ function renderProductDetailPage() {
   document.title = `${product.name} — ${product.school} школа • Писан·ка`;
 
   // --- SEO: Dynamic JSON-LD Product + BreadcrumbList schema ---
+  const canonicalUrl = `https://pysanky-syrotiuk.com/product.html?id=${id}`;
+  const productImage = product.img ? `https://pysanky-syrotiuk.com/${product.img}` : 'https://pysanky-syrotiuk.com/images/hero-ostrich-white.jpg';
+  // priceValidUntil — кінець поточного року (вимагається Google Merchant для Offer)
+  const priceValidUntil = `${new Date().getFullYear()}-12-31`;
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": product.name,
     "description": product.desc,
-    "image": product.img ? `https://pysanky-syrotiuk.com.ua/${product.img}` : 'https://pysanky-syrotiuk.com.ua/images/hero-ostrich-white.jpg',
+    "image": productImage,
     "brand": { "@type": "Brand", "name": "Писан·ка" },
     "manufacturer": { "@type": "Person", "name": "Галина Сиротюк-П'ятничук" },
     "offers": {
       "@type": "Offer",
-      "url": `https://pysanky-syrotiuk.com.ua/product.html?id=${id}`,
+      "url": canonicalUrl,
       "priceCurrency": "UAH",
       "price": product.price,
-      "availability": "https://schema.org/InStock",
+      "priceValidUntil": priceValidUntil,
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": product.inStock === false ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
       "seller": { "@type": "Organization", "name": "Писан·ка" }
     },
     "category": `${product.school} школа`,
@@ -234,9 +251,9 @@ function renderProductDetailPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Головна", "item": "https://pysanky-syrotiuk.com.ua/" },
-      { "@type": "ListItem", "position": 2, "name": "Магазин", "item": "https://pysanky-syrotiuk.com.ua/shop.html" },
-      { "@type": "ListItem", "position": 3, "name": product.school, "item": `https://pysanky-syrotiuk.com.ua/shop.html?school=${encodeURIComponent(product.school)}` },
+      { "@type": "ListItem", "position": 1, "name": "Головна", "item": "https://pysanky-syrotiuk.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Магазин", "item": "https://pysanky-syrotiuk.com/shop.html" },
+      { "@type": "ListItem", "position": 3, "name": product.school, "item": `https://pysanky-syrotiuk.com/shop.html?school=${encodeURIComponent(product.school)}` },
       { "@type": "ListItem", "position": 4, "name": product.name }
     ]
   };
@@ -253,7 +270,8 @@ function renderProductDetailPage() {
   const ogUpdates = {
     'og:title': `${product.name} — ${product.school} • Писан·ка`,
     'og:description': product.desc,
-    'og:url': `https://pysanky-syrotiuk.com.ua/product.html?id=${id}`
+    'og:url': canonicalUrl,
+    'og:image': productImage
   };
   Object.entries(ogUpdates).forEach(([prop, content]) => {
     let meta = document.querySelector(`meta[property="${prop}"]`);
@@ -261,6 +279,7 @@ function renderProductDetailPage() {
   });
   const descMeta = document.querySelector('meta[name="description"]');
   if (descMeta) descMeta.setAttribute('content', product.desc);
+  setCanonical(canonicalUrl);
   // --- End SEO ---
 
   const detail = PRODUCT_DETAILS[id] || {};
@@ -642,24 +661,32 @@ function renderBlogDetailPage() {
   document.title = `${post.title} — Блог Писан·ка`;
 
   // --- SEO: Dynamic JSON-LD BlogPosting schema ---
+  const blogCanonical = `https://pysanky-syrotiuk.com/blog-post.html?id=${postId}`;
+  const blogImage = post.img ? `https://pysanky-syrotiuk.com/${post.img}` : 'https://pysanky-syrotiuk.com/images/master-portrait.webp';
   const blogSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
     "description": fullPost.intro || post.excerpt || '',
+    "image": blogImage,
     "datePublished": post.date || new Date().toISOString().split('T')[0],
+    "dateModified": post.dateModified || post.date || new Date().toISOString().split('T')[0],
     "author": {
-      "@type": "Organization",
-      "name": "Писан·ка",
-      "url": "https://pysanky-syrotiuk.com.ua"
+      "@type": "Person",
+      "name": "Галина Сиротюк-П'ятничук",
+      "url": "https://www.instagram.com/g.syrotiuk/"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Писан·ка"
+      "name": "Писан·ка",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://pysanky-syrotiuk.com/images/master-portrait.webp"
+      }
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://pysanky-syrotiuk.com.ua/blog-post.html?id=${postId}`
+      "@id": blogCanonical
     },
     "inLanguage": "uk"
   };
@@ -681,6 +708,11 @@ function renderBlogDetailPage() {
   });
   const blogDescMeta = document.querySelector('meta[name="description"]');
   if (blogDescMeta) blogDescMeta.setAttribute('content', fullPost.intro || post.excerpt || '');
+  const ogBlogImage = document.querySelector('meta[property="og:image"]');
+  if (ogBlogImage) ogBlogImage.setAttribute('content', blogImage);
+  let ogBlogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogBlogUrl) ogBlogUrl.setAttribute('content', blogCanonical);
+  setCanonical(blogCanonical);
   // --- End SEO ---
 
   // Знайдемо схожі
