@@ -1,0 +1,40 @@
+# Писан·ка — Майстерня писанкового розпису
+# https://pysanky-syrotiuk.com.ua
+
+User-agent: *
+Allow: /
+Disallow: /netlify/
+Disallow: /ai-claude-seo-main/
+Disallow: /tests/
+Disallow: /.codesandbox/
+
+# Sitemap
+Sitemap: https://pysanky-syrotiuk.com.ua/sitemap.xml
+
+# AI Bots — дозволено (GEO стратегія 2026)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# LLM context file
+# See /llms.txt for structured AI-readable site description

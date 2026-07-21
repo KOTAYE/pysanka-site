@@ -208,7 +208,61 @@ function renderProductDetailPage() {
     return;
   }
 
-  document.title = `${product.name} — ${product.school} школа • Писанка`;
+  document.title = `${product.name} — ${product.school} школа • Писан·ка`;
+
+  // --- SEO: Dynamic JSON-LD Product + BreadcrumbList schema ---
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.name,
+    "description": product.desc,
+    "image": product.img ? `https://pysanky-syrotiuk.com.ua/${product.img}` : 'https://pysanky-syrotiuk.com.ua/images/hero-ostrich-white.jpg',
+    "brand": { "@type": "Brand", "name": "Писан·ка" },
+    "manufacturer": { "@type": "Person", "name": "Галина Сиротюк-П'ятничук" },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://pysanky-syrotiuk.com.ua/product.html?id=${id}`,
+      "priceCurrency": "UAH",
+      "price": product.price,
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "Organization", "name": "Писан·ка" }
+    },
+    "category": `${product.school} школа`,
+    "material": "Шкаралупа яйця, бджолиний віск, натуральні барвники"
+  };
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Головна", "item": "https://pysanky-syrotiuk.com.ua/" },
+      { "@type": "ListItem", "position": 2, "name": "Магазин", "item": "https://pysanky-syrotiuk.com.ua/shop.html" },
+      { "@type": "ListItem", "position": 3, "name": product.school, "item": `https://pysanky-syrotiuk.com.ua/shop.html?school=${encodeURIComponent(product.school)}` },
+      { "@type": "ListItem", "position": 4, "name": product.name }
+    ]
+  };
+  // Remove any previously injected LD+JSON
+  document.querySelectorAll('script[data-dynamic-schema]').forEach(el => el.remove());
+  [productSchema, breadcrumbSchema].forEach(schema => {
+    const el = document.createElement('script');
+    el.type = 'application/ld+json';
+    el.setAttribute('data-dynamic-schema', 'true');
+    el.textContent = JSON.stringify(schema);
+    document.head.appendChild(el);
+  });
+  // Update OG meta tags for this specific product
+  const ogUpdates = {
+    'og:title': `${product.name} — ${product.school} • Писан·ка`,
+    'og:description': product.desc,
+    'og:url': `https://pysanky-syrotiuk.com.ua/product.html?id=${id}`
+  };
+  Object.entries(ogUpdates).forEach(([prop, content]) => {
+    let meta = document.querySelector(`meta[property="${prop}"]`);
+    if (meta) meta.setAttribute('content', content);
+  });
+  const descMeta = document.querySelector('meta[name="description"]');
+  if (descMeta) descMeta.setAttribute('content', product.desc);
+  // --- End SEO ---
+
   const detail = PRODUCT_DETAILS[id] || {};
   // Merge Sanity fields into detail (each field independently)
   const EGG_LABELS = { curyche: 'Куряче, ~5,5 × 4 см', gusyache: 'Гусяче, ~9 × 6 см', strausyne: 'Страусове, ~15 × 12 см', perepelyne: 'Перепелине, ~3 × 2 см' };
@@ -585,7 +639,49 @@ function renderBlogDetailPage() {
     return;
   }
 
-  document.title = `${post.title} — Блог Писанка`;
+  document.title = `${post.title} — Блог Писан·ка`;
+
+  // --- SEO: Dynamic JSON-LD BlogPosting schema ---
+  const blogSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": fullPost.intro || post.excerpt || '',
+    "datePublished": post.date || new Date().toISOString().split('T')[0],
+    "author": {
+      "@type": "Organization",
+      "name": "Писан·ка",
+      "url": "https://pysanky-syrotiuk.com.ua"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Писан·ка"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://pysanky-syrotiuk.com.ua/blog-post.html?id=${postId}`
+    },
+    "inLanguage": "uk"
+  };
+  // Remove any previously injected LD+JSON
+  document.querySelectorAll('script[data-dynamic-schema]').forEach(el => el.remove());
+  const schemaEl = document.createElement('script');
+  schemaEl.type = 'application/ld+json';
+  schemaEl.setAttribute('data-dynamic-schema', 'true');
+  schemaEl.textContent = JSON.stringify(blogSchema);
+  document.head.appendChild(schemaEl);
+  // Update OG meta tags for this specific article
+  const ogBlogUpdates = {
+    'og:title': `${post.title} — Писан·ка`,
+    'og:description': fullPost.intro || post.excerpt || ''
+  };
+  Object.entries(ogBlogUpdates).forEach(([prop, content]) => {
+    let meta = document.querySelector(`meta[property="${prop}"]`);
+    if (meta) meta.setAttribute('content', content);
+  });
+  const blogDescMeta = document.querySelector('meta[name="description"]');
+  if (blogDescMeta) blogDescMeta.setAttribute('content', fullPost.intro || post.excerpt || '');
+  // --- End SEO ---
 
   // Знайдемо схожі
   const relatedPosts = (fullPost.related || [])
