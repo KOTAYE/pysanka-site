@@ -175,33 +175,68 @@ const FOOTER_HTML = `
       <div class="checkout-form-row">
         <div>
           <label>Прізвище та ім'я *</label>
-          <input type="text" required placeholder="Іван Петренко">
+          <input type="text" id="co-name" required placeholder="Іван Петренко">
         </div>
         <div>
           <label>Телефон *</label>
-          <input type="tel" required placeholder="+380 __ ___ __ __">
+          <input type="tel" id="co-phone" required placeholder="+380 __ ___ __ __">
         </div>
       </div>
       <div class="checkout-form-row full">
         <div>
-          <label>Email</label>
-          <input type="email" placeholder="ваша@пошта.com">
+          <label>Email <span style="color:var(--text-dim);font-weight:400;text-transform:none;letter-spacing:0">— для листа-підтвердження</span></label>
+          <input type="email" id="co-email" placeholder="ваша@пошта.com">
         </div>
       </div>
-      <div class="checkout-form-row">
+      <div class="checkout-form-row full">
         <div>
-          <label>Місто *</label>
-          <input type="text" required placeholder="Київ">
+          <label>Служба доставки *</label>
+          <select id="co-carrier" onchange="onCarrierChange()">
+            <option value="np">Нова Пошта</option>
+            <option value="ukr">Укрпошта</option>
+            <option value="meest">Meest</option>
+          </select>
         </div>
-        <div>
-          <label>Відділення Нової Пошти *</label>
-          <input type="text" required placeholder="№ 23">
+      </div>
+      <div class="np-fields">
+        <div class="checkout-form-row full">
+          <div class="np-autocomplete">
+            <label>Місто *</label>
+            <input type="text" id="co-city" autocomplete="off" placeholder="Почніть вводити: Київ, Львів…" oninput="npCityInput(this.value)">
+            <input type="hidden" id="co-city-ref">
+            <div class="np-suggest" id="co-city-suggest"></div>
+          </div>
+        </div>
+        <div class="checkout-form-row full">
+          <div class="np-autocomplete">
+            <label>Відділення або поштомат *</label>
+            <input type="text" id="co-wh" autocomplete="off" placeholder="Спершу оберіть місто" disabled oninput="npWhInput(this.value)" onfocus="npWhInput(this.value)">
+            <input type="hidden" id="co-wh-ref">
+            <div class="np-suggest" id="co-wh-suggest"></div>
+          </div>
+        </div>
+      </div>
+      <div class="manual-fields" style="display:none;">
+        <div class="checkout-form-row">
+          <div>
+            <label>Місто / населений пункт *</label>
+            <input type="text" id="co-city-manual" placeholder="Київ">
+          </div>
+          <div>
+            <label>Відділення *</label>
+            <input type="text" id="co-branch-manual" placeholder="№ або адреса">
+          </div>
+        </div>
+        <div class="checkout-form-row full">
+          <div style="font-size:13px;color:var(--text-muted);background:var(--bg-soft);padding:11px 13px;border-left:2px solid var(--accent);">
+            Автопідбір відділень поки доступний для Нової Пошти. Для цієї служби вкажіть місто й відділення вручну — менеджер уточнить деталі при підтвердженні.
+          </div>
         </div>
       </div>
       <div class="checkout-form-row full">
         <div>
           <label>Коментар до замовлення</label>
-          <textarea placeholder="Особливі побажання, упаковка для подарунка тощо"></textarea>
+          <textarea id="co-comment" placeholder="Особливі побажання, упаковка для подарунка тощо"></textarea>
         </div>
       </div>
 

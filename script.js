@@ -870,25 +870,43 @@ function closeCheckout() {
 async function submitOrder(e) {
   e.preventDefault();
   const form = e.target;
-  const inputs = form.querySelectorAll('input');
-  const textarea = form.querySelector('textarea');
   const submitBtn = form.querySelector('button[type="submit"]');
+  const byId = (id) => document.getElementById(id);
+
+  const nameVal = (byId('co-name')?.value || '').trim();
+  if (!nameVal) { showToast('Вкажіть прізвище та імʼя'); byId('co-name')?.focus(); return; }
 
   // Validate phone (Ukrainian: +380XXXXXXXXX, 380XXXXXXXXX, 0XXXXXXXXX)
-  const phoneRaw = (inputs[1]?.value || '').replace(/[\s\-()]/g, '');
+  const phoneRaw = (byId('co-phone')?.value || '').replace(/[\s\-()]/g, '');
   const phoneOk = /^(\+?380\d{9}|0\d{9})$/.test(phoneRaw);
   if (!phoneOk) {
     showToast('Введіть коректний номер телефону');
-    inputs[1]?.focus();
+    byId('co-phone')?.focus();
     return;
   }
 
   // Validate email if provided
-  const emailVal = (inputs[2]?.value || '').trim();
+  const emailVal = (byId('co-email')?.value || '').trim();
   if (emailVal && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
     showToast('Введіть коректну email-адресу');
-    inputs[2]?.focus();
+    byId('co-email')?.focus();
     return;
+  }
+
+  // Delivery: Нова Пошта (з автопідбором) або ручний ввід для інших служб
+  const carrierVal = byId('co-carrier')?.value || 'np';
+  const carrierLabel = { np: 'Нова Пошта', ukr: 'Укрпошта', meest: 'Meest' }[carrierVal] || 'Нова Пошта';
+  let cityVal, branchVal;
+  if (carrierVal === 'np') {
+    cityVal = (byId('co-city')?.value || '').trim();
+    branchVal = (byId('co-wh')?.value || '').trim();
+    if (!cityVal || !byId('co-city-ref')?.value) { showToast('Оберіть місто зі списку'); byId('co-city')?.focus(); return; }
+    if (!branchVal || !byId('co-wh-ref')?.value) { showToast('Оберіть відділення або поштомат зі списку'); byId('co-wh')?.focus(); return; }
+  } else {
+    cityVal = (byId('co-city-manual')?.value || '').trim();
+    branchVal = (byId('co-branch-manual')?.value || '').trim();
+    if (!cityVal) { showToast('Вкажіть місто'); byId('co-city-manual')?.focus(); return; }
+    if (!branchVal) { showToast('Вкажіть відділення'); byId('co-branch-manual')?.focus(); return; }
   }
 
   const selectedPayment = document.querySelector('.payment-option.selected strong');
@@ -907,17 +925,18 @@ async function submitOrder(e) {
 
   const orderData = {
     customer: {
-      name: inputs[0]?.value || '',
+      name: nameVal,
       phone: phoneRaw.startsWith('+') ? phoneRaw : phoneRaw.startsWith('0') ? '+38' + phoneRaw : '+' + phoneRaw,
       email: emailVal,
     },
     delivery: {
-      city: inputs[3]?.value || '',
-      np: inputs[4]?.value || '',
+      carrier: carrierLabel,
+      city: cityVal,
+      branch: branchVal,
     },
     items,
     paymentMethod,
-    comment: textarea?.value || '',
+    comment: (byId('co-comment')?.value || ''),
   };
 
   // Disable button while sending
@@ -957,6 +976,114 @@ function selectPayment(el) {
   document.querySelectorAll('.payment-option').forEach(p => p.classList.remove('selected'));
   el.classList.add('selected');
 }
+
+/* ---------- ДОСТАВКА: автопідбір Нової Пошти ---------- */
+const NP_API = window.location.hostname.includes('github.io')
+  ? 'https://nimble-churros-45fe19.netlify.app/.netlify/functions/np'
+  : '/.netlify/functions/np';
+
+let _npCityTimer = null;
+let _npWhCache = [];
+let _npWhCityRef = '';
+
+function onCarrierChange() {
+  const carrier = document.getElementById('co-carrier')?.value || 'np';
+  const npFields = document.querySelector('.np-fields');
+  const manualFields = document.querySelector('.manual-fields');
+  if (!npFields || !manualFields) return;
+  const isNp = carrier === 'np';
+  npFields.style.display = isNp ? '' : 'none';
+  manualFields.style.display = isNp ? 'none' : '';
+}
+
+function _npRenderSuggest(box, items, labelFn, onPick) {
+  box.innerHTML = '';
+  if (!items.length) {
+    const e = document.createElement('div');
+    e.className = 'np-empty';
+    e.textContent = 'Нічого не знайдено';
+    box.appendChild(e);
+    box.classList.add('open');
+    return;
+  }
+  items.forEach(function(it) {
+    const d = document.createElement('div');
+    d.className = 'np-opt';
+    d.textContent = labelFn(it);
+    // mousedown спрацьовує до blur інпута
+    d.addEventListener('mousedown', function(ev) { ev.preventDefault(); onPick(it); });
+    box.appendChild(d);
+  });
+  box.classList.add('open');
+}
+
+function _npCloseSuggest() {
+  document.querySelectorAll('.np-suggest.open').forEach(b => { b.classList.remove('open'); b.innerHTML = ''; });
+}
+
+function npCityInput(val) {
+  clearTimeout(_npCityTimer);
+  const refEl = document.getElementById('co-city-ref');
+  if (refEl) refEl.value = '';
+  const box = document.getElementById('co-city-suggest');
+  if (!box) return;
+  if ((val || '').trim().length < 2) { box.classList.remove('open'); box.innerHTML = ''; return; }
+  _npCityTimer = setTimeout(async function() {
+    try {
+      const res = await fetch(NP_API + '?action=cities&q=' + encodeURIComponent(val.trim()));
+      const data = await res.json();
+      _npRenderSuggest(box, data.items || [], function(c) { return c.present; }, function(c) { _npSelectCity(c); });
+    } catch (e) { box.classList.remove('open'); }
+  }, 250);
+}
+
+function _npSelectCity(c) {
+  document.getElementById('co-city').value = c.present;
+  document.getElementById('co-city-ref').value = c.ref;
+  document.getElementById('co-city-suggest').classList.remove('open');
+  _npWhCache = [];
+  _npWhCityRef = '';
+  const wh = document.getElementById('co-wh');
+  wh.value = '';
+  document.getElementById('co-wh-ref').value = '';
+  wh.disabled = false;
+  wh.placeholder = 'Почніть вводити номер або адресу';
+  wh.focus();
+  npWhInput('');
+}
+
+async function npWhInput(val) {
+  const cityRef = document.getElementById('co-city-ref')?.value;
+  const box = document.getElementById('co-wh-suggest');
+  const refEl = document.getElementById('co-wh-ref');
+  if (refEl) refEl.value = '';
+  if (!box || !cityRef) return;
+  try {
+    if (_npWhCityRef !== cityRef || !_npWhCache.length) {
+      const res = await fetch(NP_API + '?action=warehouses&cityRef=' + encodeURIComponent(cityRef));
+      const data = await res.json();
+      _npWhCache = data.items || [];
+      _npWhCityRef = cityRef;
+    }
+    const q = (val || '').trim().toLowerCase();
+    const filtered = (q
+      ? _npWhCache.filter(w => (w.description || '').toLowerCase().indexOf(q) !== -1 || String(w.number).indexOf(q) !== -1)
+      : _npWhCache
+    ).slice(0, 40);
+    _npRenderSuggest(box, filtered, function(w) { return (w.isPostomat ? '📦 ' : '🏤 ') + w.description; }, function(w) { _npSelectWh(w); });
+  } catch (e) { box.classList.remove('open'); }
+}
+
+function _npSelectWh(w) {
+  document.getElementById('co-wh').value = w.description;
+  document.getElementById('co-wh-ref').value = w.ref;
+  document.getElementById('co-wh-suggest').classList.remove('open');
+}
+
+// Закривати підказки при кліку поза полем
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.np-autocomplete')) _npCloseSuggest();
+});
 
 /* ---------- FAQ ---------- */
 function toggleFaq(btn) {

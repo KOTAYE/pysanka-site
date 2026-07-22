@@ -2571,3 +2571,44 @@ footer {
   .delivery-steps { grid-template-columns: 1fr; gap: 16px; }
   .pay-item { padding: 20px; gap: 16px; }
 }
+
+/* =================================================================
+   ДОСТАВКА — селектор служби + автопідбір Нової Пошти
+   ================================================================= */
+#co-carrier {
+  width: 100%;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--text);
+  border-radius: 2px;
+}
+.np-autocomplete { position: relative; }
+.np-suggest {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg-card);
+  border: 1px solid var(--line-strong);
+  border-top: none;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 14px 30px -12px rgba(0,0,0,0.4);
+}
+.np-suggest.open { display: block; }
+.np-opt {
+  padding: 11px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  line-height: 1.35;
+}
+.np-opt:last-child { border-bottom: none; }
+.np-opt:hover { background: var(--accent-soft); color: var(--accent); }
+.np-empty { padding: 12px 14px; font-size: 13px; color: var(--text-muted); }
