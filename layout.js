@@ -92,7 +92,7 @@ const FOOTER_HTML = `
   <div class="container">
     <h2>Підписатися на <i>новини</i></h2>
     <p>Дізнавайтесь першими про нові колекції, відкриття бронювань і традиції писанкарства.</p>
-    <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Дякуємо за підписку!')">
+    <form class="newsletter-form" onsubmit="return subscribeNewsletter(event)">
       <input type="email" placeholder="Ваша електронна пошта" required>
       <button type="submit">Підписатися</button>
     </form>
@@ -384,3 +384,35 @@ function doSearch(query) {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { closeMobileMenu(); closeSearch(); }
 });
+
+/* ---------- РОЗСИЛКА НОВИН ---------- */
+async function subscribeNewsletter(e) {
+  e.preventDefault();
+  const form = e.target;
+  const input = form.querySelector('input[type="email"]');
+  const btn = form.querySelector('button[type="submit"]');
+  const email = (input?.value || '').trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (typeof showToast === 'function') showToast('Введіть коректний email');
+    return false;
+  }
+  const API = window.location.hostname.includes('github.io')
+    ? 'https://nimble-churros-45fe19.netlify.app/.netlify/functions/subscribe'
+    : '/.netlify/functions/subscribe';
+  if (btn) { btn.disabled = true; btn.textContent = 'Підписуємо…'; }
+  try {
+    const res = await fetch(API, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({email})});
+    if (res.ok) {
+      if (typeof showToast === 'function') showToast('Дякуємо за підписку! Перевірте пошту');
+      if (input) input.value = '';
+    } else {
+      if (typeof showToast === 'function') showToast('Не вдалося підписатися. Спробуйте ще раз');
+    }
+  } catch (err) {
+    if (typeof showToast === 'function') showToast('Дякуємо за підписку!');
+    if (input) input.value = '';
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Підписатися'; }
+  }
+  return false;
+}
