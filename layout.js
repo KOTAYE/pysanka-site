@@ -110,8 +110,8 @@ const FOOTER_HTML = `
       </div>
       <div class="footer-col">
         <h5>Інтернет-магазин</h5>
-        <a href="#">Договір-оферта</a>
-        <a href="#">Умови використання сайту</a>
+        <a href="offer.html">Договір-оферта</a>
+        <a href="terms.html">Умови використання сайту</a>
         <a href="delivery.html">Доставка та оплата</a>
         <a href="care.html">Як зберігати писанку</a>
         <a href="events.html">Події</a>
