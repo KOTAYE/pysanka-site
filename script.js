@@ -712,7 +712,7 @@ function productVisual(product, opts = {}) {
   if (product && product.image) {
     const alt = product.name ? product.name.replace(/«|»/g, '') : 'Писанка';
     const cls = opts.className || 'product-photo';
-    return `<img class="${cls}" src="${product.image}" alt="${alt}" loading="lazy">`;
+    return `<img class="${cls}" src="${product.image}" alt="${alt}" loading="lazy" decoding="async">`;
   }
   return pysankaSVG(product?.sv || 'klyntsi', opts);
 }
